@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CellModelProtocol {
+protocol TableCellModelProtocol {
     var cellIdentifier: String { get }
     func configureCell(_ cell: UITableViewCell)
 }

@@ -8,12 +8,8 @@
 import UIKit
 
 class CurrentWeatherCell: UITableViewCell {
+    
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var curentTemperatureLabel: UILabel!
     @IBOutlet weak var forecastLabel: UILabel!
-    
-    func config(city: String) {
-        cityNameLabel.text = city
-    }
-
 }

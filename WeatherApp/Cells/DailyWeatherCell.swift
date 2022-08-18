@@ -12,8 +12,4 @@ class DailyWeatherCell: UITableViewCell {
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var minTempLabel: UILabel!
     @IBOutlet weak var maxTempLabel: UILabel!
-    
-    func configure(day: String) {
-        dayLabel.text = day
-    }
 }

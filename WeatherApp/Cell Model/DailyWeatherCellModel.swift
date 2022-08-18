@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DailyWeatherCellModel: CellModelProtocol {
+struct DailyWeatherCellModel: TableCellModelProtocol {
     let cellIdentifier = "DailyWeatherCell"
     
     let day: String
@@ -15,7 +15,5 @@ struct DailyWeatherCellModel: CellModelProtocol {
     func configureCell(_ cell: UITableViewCell) {
         guard let cell = cell as? DailyWeatherCell else { return }
         cell.dayLabel.text = day
-    }
-    
-    
+    } 
 }

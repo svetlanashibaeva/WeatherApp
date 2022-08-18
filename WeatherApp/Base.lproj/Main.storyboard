@@ -119,9 +119,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="148"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GW0-0q-UvO">
-                                                    <rect key="frame" x="16" y="8" width="382" height="132"/>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GW0-0q-UvO">
+                                                    <rect key="frame" x="16" y="8" width="398" height="132"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="3oe-K1-9ai"/>
+                                                    </constraints>
                                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="peN-ua-ZNy">
                                                         <size key="itemSize" width="100" height="100"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -129,32 +132,32 @@
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TempForTheDayCell" id="sWb-pk-7XW" customClass="TempForTheDayCollectionViewCell" customModule="WeatherApp" customModuleProvider="target">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TempForTheCollectionViewCellModel" id="sWb-pk-7XW" customClass="TempForTheDayCollectionViewCell" customModule="WeatherApp" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="16" width="75" height="100"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ARJ-PJ-lgV">
                                                                 <rect key="frame" x="0.0" y="0.0" width="75" height="100"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сейчас" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TnC-h8-ntC">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сейчас" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TnC-h8-ntC">
                                                                         <rect key="frame" x="8" y="8" width="59" height="21"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="na7-fL-nkE">
-                                                                        <rect key="frame" x="8" y="33" width="59" height="34"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                                                        <rect key="frame" x="8" y="63" width="59" height="29"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                 </subviews>
                                                                 <constraints>
+                                                                    <constraint firstAttribute="bottom" secondItem="na7-fL-nkE" secondAttribute="bottom" constant="8" id="1kr-Cw-n2v"/>
                                                                     <constraint firstItem="na7-fL-nkE" firstAttribute="leading" secondItem="ARJ-PJ-lgV" secondAttribute="leading" constant="8" id="6dL-rG-J2J"/>
                                                                     <constraint firstItem="TnC-h8-ntC" firstAttribute="leading" secondItem="ARJ-PJ-lgV" secondAttribute="leading" constant="8" id="7gu-5p-46B"/>
                                                                     <constraint firstItem="TnC-h8-ntC" firstAttribute="top" secondItem="ARJ-PJ-lgV" secondAttribute="top" constant="8" id="HXg-rD-N0P"/>
                                                                     <constraint firstAttribute="trailing" secondItem="na7-fL-nkE" secondAttribute="trailing" constant="8" id="OVr-RR-YVB"/>
-                                                                    <constraint firstItem="na7-fL-nkE" firstAttribute="centerY" secondItem="ARJ-PJ-lgV" secondAttribute="centerY" id="SLp-9y-Ray"/>
                                                                     <constraint firstAttribute="trailing" secondItem="TnC-h8-ntC" secondAttribute="trailing" constant="8" id="tbY-hv-yNo"/>
                                                                 </constraints>
                                                             </collectionViewCellContentView>
@@ -164,11 +167,14 @@
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="T0H-gq-mjd" id="3Q6-5H-dm1"/>
+                                                    </connections>
                                                 </collectionView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="GW0-0q-UvO" firstAttribute="top" secondItem="7eJ-r2-nWo" secondAttribute="top" constant="8" id="8GH-Dh-RIL"/>
-                                                <constraint firstAttribute="trailing" secondItem="GW0-0q-UvO" secondAttribute="trailing" constant="16" id="JSs-FR-c5L"/>
+                                                <constraint firstAttribute="trailing" secondItem="GW0-0q-UvO" secondAttribute="trailing" id="JSs-FR-c5L"/>
                                                 <constraint firstItem="GW0-0q-UvO" firstAttribute="leading" secondItem="7eJ-r2-nWo" secondAttribute="leading" constant="16" id="cQ8-cV-saw"/>
                                                 <constraint firstAttribute="bottom" secondItem="GW0-0q-UvO" secondAttribute="bottom" constant="8" id="zzG-h5-SvS"/>
                                             </constraints>

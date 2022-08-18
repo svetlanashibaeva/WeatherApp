@@ -11,8 +11,4 @@ class TempForTheDayCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
-    
-    func config(time: String) {
-        timeLabel.text = time
-    }
 }

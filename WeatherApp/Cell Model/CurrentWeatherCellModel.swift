@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct CurrentWeatherCellModel: CellModelProtocol {
+struct CurrentWeatherCellModel: TableCellModelProtocol {
     let cellIdentifier = "CurrentWeatherCell"
     
     let city: String

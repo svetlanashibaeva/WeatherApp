@@ -40,7 +40,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Moscow" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDh-6Z-Tw0">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Piter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDh-6Z-Tw0">
                                                     <rect key="frame" x="16" y="16" width="382" height="40.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                     <nil key="textColor"/>
@@ -64,7 +64,7 @@
                                         <connections>
                                             <outlet property="cityNameLabel" destination="tDh-6Z-Tw0" id="lrK-2h-aP2"/>
                                             <outlet property="curentTemperatureLabel" destination="Bq0-wi-h4m" id="RgM-AL-npZ"/>
-                                            <outlet property="forecastLabel" destination="eTO-Ic-AFh" id="GeN-uC-X6f"/>
+                                            <outlet property="feelsLikeLabel" destination="eTO-Ic-AFh" id="GeN-uC-X6f"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DailyWeatherCell" rowHeight="88" id="dfH-Hp-s95" customClass="DailyWeatherCell" customModule="WeatherApp" customModuleProvider="target">

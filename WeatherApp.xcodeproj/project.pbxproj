@@ -23,6 +23,14 @@
 		D3009FFE28ACCC8C00236F44 /* TempForTheDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3009FFD28ACCC8C00236F44 /* TempForTheDayCollectionViewCell.swift */; };
 		D300F71328AE1BC3000304B5 /* TempForTheDayCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F71228AE1BC3000304B5 /* TempForTheDayCollectionViewCellModel.swift */; };
 		D300F71528AE1D63000304B5 /* CollectionCellModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F71428AE1D63000304B5 /* CollectionCellModelProtocol.swift */; };
+		D300F71828AE24C5000304B5 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F71728AE24C5000304B5 /* ApiError.swift */; };
+		D300F71A28AE2519000304B5 /* ApiServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F71928AE2519000304B5 /* ApiServiceError.swift */; };
+		D300F71D28AE2646000304B5 /* EndpointProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F71C28AE2646000304B5 /* EndpointProtocol.swift */; };
+		D300F71F28AE2699000304B5 /* WeatherEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F71E28AE2699000304B5 /* WeatherEndpoint.swift */; };
+		D300F72128AE2F09000304B5 /* CurrentWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72028AE2F09000304B5 /* CurrentWeatherModel.swift */; };
+		D300F72428AE3188000304B5 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72328AE3188000304B5 /* ApiService.swift */; };
+		D300F72628AE456F000304B5 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72528AE456F000304B5 /* WeatherService.swift */; };
+		D300F72928AE4A42000304B5 /* ShowErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72828AE4A42000304B5 /* ShowErrorAlert.swift */; };
 		D3F33EBC28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F33EBB28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +53,14 @@
 		D3009FFD28ACCC8C00236F44 /* TempForTheDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempForTheDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		D300F71228AE1BC3000304B5 /* TempForTheDayCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempForTheDayCollectionViewCellModel.swift; sourceTree = "<group>"; };
 		D300F71428AE1D63000304B5 /* CollectionCellModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCellModelProtocol.swift; sourceTree = "<group>"; };
+		D300F71728AE24C5000304B5 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
+		D300F71928AE2519000304B5 /* ApiServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiServiceError.swift; sourceTree = "<group>"; };
+		D300F71C28AE2646000304B5 /* EndpointProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointProtocol.swift; sourceTree = "<group>"; };
+		D300F71E28AE2699000304B5 /* WeatherEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherEndpoint.swift; sourceTree = "<group>"; };
+		D300F72028AE2F09000304B5 /* CurrentWeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherModel.swift; sourceTree = "<group>"; };
+		D300F72328AE3188000304B5 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
+		D300F72528AE456F000304B5 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		D300F72828AE4A42000304B5 /* ShowErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowErrorAlert.swift; sourceTree = "<group>"; };
 		D3F33EBB28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperaturePerDayCellModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,6 +94,9 @@
 		D3009FD728ABA3BD00236F44 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				D300F72728AE4A2C000304B5 /* Extension */,
+				D300F72228AE3176000304B5 /* Services */,
+				D300F71628AE24B5000304B5 /* Models */,
 				D3F33EBA28ACD69000FA35C1 /* Controllers */,
 				D3F33EB928ACD66700FA35C1 /* Cells */,
 				D3F33EB828ACD64E00FA35C1 /* Protocol */,
@@ -91,6 +110,42 @@
 				D3009FE128ABA3BD00236F44 /* WeatherApp.xcdatamodeld */,
 			);
 			path = WeatherApp;
+			sourceTree = "<group>";
+		};
+		D300F71628AE24B5000304B5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D300F71B28AE2550000304B5 /* Errors */,
+				D300F71E28AE2699000304B5 /* WeatherEndpoint.swift */,
+				D300F72028AE2F09000304B5 /* CurrentWeatherModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D300F71B28AE2550000304B5 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				D300F71728AE24C5000304B5 /* ApiError.swift */,
+				D300F71928AE2519000304B5 /* ApiServiceError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		D300F72228AE3176000304B5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D300F72328AE3188000304B5 /* ApiService.swift */,
+				D300F72528AE456F000304B5 /* WeatherService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D300F72728AE4A2C000304B5 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D300F72828AE4A42000304B5 /* ShowErrorAlert.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		D3F33EB728ACD63A00FA35C1 /* Cell Model */ = {
@@ -109,6 +164,7 @@
 			children = (
 				D3009FF528ABC32000236F44 /* TableCellModelProtocol.swift */,
 				D300F71428AE1D63000304B5 /* CollectionCellModelProtocol.swift */,
+				D300F71C28AE2646000304B5 /* EndpointProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -208,15 +264,23 @@
 				D3009FE328ABA3BD00236F44 /* WeatherApp.xcdatamodeld in Sources */,
 				D300F71528AE1D63000304B5 /* CollectionCellModelProtocol.swift in Sources */,
 				D3F33EBC28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift in Sources */,
+				D300F71A28AE2519000304B5 /* ApiServiceError.swift in Sources */,
+				D300F72428AE3188000304B5 /* ApiService.swift in Sources */,
 				D300F71328AE1BC3000304B5 /* TempForTheDayCollectionViewCellModel.swift in Sources */,
 				D3009FFA28ABC82400236F44 /* DailyWeatherCellModel.swift in Sources */,
 				D3009FD928ABA3BD00236F44 /* AppDelegate.swift in Sources */,
+				D300F71828AE24C5000304B5 /* ApiError.swift in Sources */,
 				D3009FF228ABB58B00236F44 /* CurrentWeatherCell.swift in Sources */,
+				D300F72928AE4A42000304B5 /* ShowErrorAlert.swift in Sources */,
+				D300F71F28AE2699000304B5 /* WeatherEndpoint.swift in Sources */,
+				D300F72628AE456F000304B5 /* WeatherService.swift in Sources */,
 				D3009FF828ABC7B800236F44 /* DailyWeatherCell.swift in Sources */,
+				D300F72128AE2F09000304B5 /* CurrentWeatherModel.swift in Sources */,
 				D3009FDB28ABA3BD00236F44 /* SceneDelegate.swift in Sources */,
 				D3009FFC28ACC69500236F44 /* TemperaturePerDayCell.swift in Sources */,
 				D3009FF028ABAFAE00236F44 /* CurrentWeatherViewController.swift in Sources */,
 				D3009FF628ABC32000236F44 /* TableCellModelProtocol.swift in Sources */,
+				D300F71D28AE2646000304B5 /* EndpointProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

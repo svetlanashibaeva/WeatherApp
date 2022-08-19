@@ -12,7 +12,11 @@ class WeatherService {
     private let apiService = ApiService()
 
     func getWeather(completion: @escaping (Result<CurrentWeather, Error>) -> ()) {
-        apiService.performRequest(with: WeatherEndpoint.getWeather, type: CurrentWeather.self, completion: completion)
+        apiService.performRequest(with: WeatherEndpoint.getCurrentWeather, type: CurrentWeather.self, completion: completion)
+    }
+    
+    func getForecast(completion: @escaping (Result<ForecastModel, Error>) -> ()) {
+        apiService.performRequest(with: WeatherEndpoint.getForecast, type: ForecastModel.self, completion: completion)
     }
 }
 

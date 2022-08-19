@@ -12,9 +12,8 @@ class CurrentWeatherViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private let weatherService = WeatherService()
-    private var currentWeather = [CurrentWeather]()
     
-    var cellModels: [TableCellModelProtocol] = []
+    private var cellModels: [TableCellModelProtocol] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,46 +22,122 @@ class CurrentWeatherViewController: UIViewController {
     }
     
     private func loadData() {
+        var currentWeather: CurrentWeather?
+        var forecast: ForecastModel?
+        var responseError: String?
+        
+        let taskLoadData = DispatchGroup()
+    
+        
+//        weatherService.getWeather { [weak self] result in
+//            guard let self = self else { return }
+//
+//            switch result {
+//            case let .success(response):
+//                self.cellModels = self.buildCellModels(currentWeather: response)
+//
+//            case let .failure(error):
+//                DispatchQueue.main.async {
+//                    self.showError(error: error.localizedDescription)
+//                }
+//            }
+//
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//        }
+        
+        taskLoadData.enter()
+        weatherService.getWeather { result in
+            switch result {
+            case let .success(response):
+                currentWeather = response
+                
+            case let .failure(error):
+                responseError = error.localizedDescription
+            }
             
-        weatherService.getWeather { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case let .success(response):
-                    self.cellModels = self.buildCellModels(currentWeather: response)
-   
-                case let .failure(error):
-                    DispatchQueue.main.async {
-                        self.showError(error: error.localizedDescription)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+            taskLoadData.leave()
+        }
+        
+        taskLoadData.enter()
+        weatherService.getForecast { result in
+            switch result {
+            case let .success(response):
+                forecast = response
+            case let .failure(error):
+                responseError = error.localizedDescription
+            }
+            
+            taskLoadData.leave()
+        }
+        
+        taskLoadData.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let self = self else { return }
+            
+            if let responseError = responseError {
+                self.showError(error: responseError)
+            } else if let currentWeather = currentWeather, let forecast = forecast {
+                self.cellModels = self.buildCellModels(currentWeather: currentWeather, forecast: forecast)
+                self.tableView.reloadData()
             }
         }
+    }
 
-    func buildCellModels(currentWeather: CurrentWeather) -> [TableCellModelProtocol] {
-        
-        return [
-            CurrentWeatherCellModel(city: currentWeather.name, currentTemp: currentWeather.main.temp, feelsLike: currentWeather.main.feelsLike ?? 0)
+    func buildCellModels(currentWeather: CurrentWeather, forecast: ForecastModel) -> [TableCellModelProtocol] {
+
+        let hourly = forecast.list
+            .prefix(8)
+            .map { interval in
+            TempForTheDayCollectionViewCellModel(time: interval.dt.hour, temperature: interval.main.temp.toString)
+        }
+
+        let daily = getDailyCellModels(list: forecast.list)
+
+        let models: [TableCellModelProtocol] = [
+            CurrentWeatherCellModel(
+                city: currentWeather.name,
+                currentTemp: currentWeather.main.temp.toString,
+                feelsLike: currentWeather.main.feelsLike.toString,
+                forecast: currentWeather.weather.first?.description.capitalized ?? ""
+            ),
+            TemperaturePerDayCellModel(timesArray: hourly)
         ]
+
+        return models + daily
+    }
+    
+    func getDailyCellModels(list: [List]) -> [TableCellModelProtocol] {
+        guard let firstInterval = list.first else { return [] }
         
-//        CurrentWeatherCellModel(city: "Ekaterinburg"),
-//        DailyWeatherCellModel(day: "Понедельник"),
-//        DailyWeatherCellModel(day: "Вторник"),
-//        DailyWeatherCellModel(day: "Среда"),
-//        TemperaturePerDayCellModel(timesArray: [
-//            TempForTheDayCollectionViewCellModel(time: "Сейчас"),
-//            TempForTheDayCollectionViewCellModel(time: "14"),
-//            TempForTheDayCollectionViewCellModel(time: "16"),
-//            TempForTheDayCollectionViewCellModel(time: "18"),
-//            TempForTheDayCollectionViewCellModel(time: "20"),
-//            TempForTheDayCollectionViewCellModel(time: "22"),
-//            TempForTheDayCollectionViewCellModel(time: "24"),
-//            TempForTheDayCollectionViewCellModel(time: "26")
-//        ])
+        var daily = [TableCellModelProtocol]()
+        var date = firstInterval.dt.day
+        
+        var max = firstInterval.main.tempMax
+        var min = firstInterval.main.tempMin
+        
+        for index in 1...list.count - 1 {
+            let interval = list[index]
+            
+            if date == interval.dt.day {
+                if interval.main.tempMax > max {
+                    max = interval.main.tempMax
+                } else if interval.main.tempMin < min {
+                    min = interval.main.tempMin
+                }
+            } else {
+                daily.append(DailyWeatherCellModel(
+                    day: date,
+                    minTemp: min.toString,
+                    maxTemp: max.toString
+                ))
+                date = interval.dt.day
+                min = interval.main.tempMin
+                max = interval.main.tempMax
+            }
+        }
+        
+        return daily
     }
 }
 

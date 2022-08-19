@@ -21,54 +21,63 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CurrentWeatherCell" rowHeight="261" id="Kot-fC-2W8" customClass="CurrentWeatherCell" customModule="WeatherApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="261"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CurrentWeatherCell" rowHeight="278" id="Kot-fC-2W8" customClass="CurrentWeatherCell" customModule="WeatherApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="278"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kot-fC-2W8" id="Sc0-jz-q3e">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="261"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="278"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="23°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bq0-wi-h4m">
-                                                    <rect key="frame" x="20" y="88.5" width="374" height="84"/>
+                                                    <rect key="frame" x="20" y="93.5" width="374" height="84"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="70"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ясно" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTO-Ic-AFh">
-                                                    <rect key="frame" x="20" y="204.5" width="374" height="40.5"/>
+                                                    <rect key="frame" x="20" y="238.5" width="374" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Piter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDh-6Z-Tw0">
-                                                    <rect key="frame" x="16" y="16" width="382" height="40.5"/>
+                                                    <rect key="frame" x="16" y="16" width="382" height="45.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ощущается как: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fgZ-Ub-WpD">
+                                                    <rect key="frame" x="20" y="185.5" width="374" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="tDh-6Z-Tw0" secondAttribute="trailing" constant="16" id="09o-fj-FX8"/>
-                                                <constraint firstItem="Bq0-wi-h4m" firstAttribute="centerY" secondItem="Sc0-jz-q3e" secondAttribute="centerY" id="18W-Cl-5th"/>
-                                                <constraint firstItem="eTO-Ic-AFh" firstAttribute="top" secondItem="Bq0-wi-h4m" secondAttribute="bottom" constant="32" id="9Ze-xq-XLC"/>
                                                 <constraint firstItem="Bq0-wi-h4m" firstAttribute="leading" secondItem="Sc0-jz-q3e" secondAttribute="leadingMargin" id="On2-yb-Apv"/>
                                                 <constraint firstItem="Bq0-wi-h4m" firstAttribute="top" secondItem="tDh-6Z-Tw0" secondAttribute="bottom" constant="32" id="Oz5-mV-6WQ"/>
                                                 <constraint firstItem="eTO-Ic-AFh" firstAttribute="leading" secondItem="Sc0-jz-q3e" secondAttribute="leadingMargin" id="R0X-tl-VMo"/>
                                                 <constraint firstItem="tDh-6Z-Tw0" firstAttribute="leading" secondItem="Sc0-jz-q3e" secondAttribute="leading" constant="16" id="Rsg-26-iJg"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="eTO-Ic-AFh" secondAttribute="trailing" id="SfN-HT-m0m"/>
+                                                <constraint firstItem="eTO-Ic-AFh" firstAttribute="top" secondItem="fgZ-Ub-WpD" secondAttribute="bottom" constant="32" id="ZaR-9q-Rn5"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="eTO-Ic-AFh" secondAttribute="bottom" constant="8" id="ash-ZL-nDt"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Bq0-wi-h4m" secondAttribute="trailing" id="doa-AR-D3U"/>
+                                                <constraint firstItem="fgZ-Ub-WpD" firstAttribute="leading" secondItem="Sc0-jz-q3e" secondAttribute="leadingMargin" id="nZv-1q-sdM"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="fgZ-Ub-WpD" secondAttribute="trailing" id="qmn-Oj-i4d"/>
+                                                <constraint firstItem="fgZ-Ub-WpD" firstAttribute="top" secondItem="Bq0-wi-h4m" secondAttribute="bottom" constant="8" id="rWb-VU-zVK"/>
                                                 <constraint firstItem="tDh-6Z-Tw0" firstAttribute="top" secondItem="Sc0-jz-q3e" secondAttribute="top" constant="16" id="w90-ec-An4"/>
-                                                <constraint firstAttribute="bottom" secondItem="eTO-Ic-AFh" secondAttribute="bottom" constant="16" id="xHz-RU-u49"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cityNameLabel" destination="tDh-6Z-Tw0" id="lrK-2h-aP2"/>
                                             <outlet property="curentTemperatureLabel" destination="Bq0-wi-h4m" id="RgM-AL-npZ"/>
-                                            <outlet property="feelsLikeLabel" destination="eTO-Ic-AFh" id="GeN-uC-X6f"/>
+                                            <outlet property="feelsLikeLabel" destination="fgZ-Ub-WpD" id="lan-5s-n9v"/>
+                                            <outlet property="forecastLabel" destination="eTO-Ic-AFh" id="GeN-uC-X6f"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DailyWeatherCell" rowHeight="88" id="dfH-Hp-s95" customClass="DailyWeatherCell" customModule="WeatherApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="305.5" width="414" height="88"/>
+                                        <rect key="frame" x="0.0" y="322.5" width="414" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dfH-Hp-s95" id="jom-5N-bKv">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
@@ -113,7 +122,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TemperaturePerDayCell" rowHeight="148" id="T0H-gq-mjd" customClass="TemperaturePerDayCell" customModule="WeatherApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="393.5" width="414" height="148"/>
+                                        <rect key="frame" x="0.0" y="410.5" width="414" height="148"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="T0H-gq-mjd" id="7eJ-r2-nWo">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="148"/>
@@ -133,10 +142,10 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TempForTheCollectionViewCellModel" id="sWb-pk-7XW" customClass="TempForTheDayCollectionViewCell" customModule="WeatherApp" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="16" width="75" height="100"/>
+                                                            <rect key="frame" x="0.0" y="17" width="75" height="98"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ARJ-PJ-lgV">
-                                                                <rect key="frame" x="0.0" y="0.0" width="75" height="100"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="75" height="98"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сейчас" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TnC-h8-ntC">
@@ -146,7 +155,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="na7-fL-nkE">
-                                                                        <rect key="frame" x="8" y="63" width="59" height="29"/>
+                                                                        <rect key="frame" x="8" y="61" width="59" height="29"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -156,6 +165,7 @@
                                                                     <constraint firstAttribute="bottom" secondItem="na7-fL-nkE" secondAttribute="bottom" constant="8" id="1kr-Cw-n2v"/>
                                                                     <constraint firstItem="na7-fL-nkE" firstAttribute="leading" secondItem="ARJ-PJ-lgV" secondAttribute="leading" constant="8" id="6dL-rG-J2J"/>
                                                                     <constraint firstItem="TnC-h8-ntC" firstAttribute="leading" secondItem="ARJ-PJ-lgV" secondAttribute="leading" constant="8" id="7gu-5p-46B"/>
+                                                                    <constraint firstItem="na7-fL-nkE" firstAttribute="top" secondItem="TnC-h8-ntC" secondAttribute="bottom" constant="32" id="9To-nn-T6V"/>
                                                                     <constraint firstItem="TnC-h8-ntC" firstAttribute="top" secondItem="ARJ-PJ-lgV" secondAttribute="top" constant="8" id="HXg-rD-N0P"/>
                                                                     <constraint firstAttribute="trailing" secondItem="na7-fL-nkE" secondAttribute="trailing" constant="8" id="OVr-RR-YVB"/>
                                                                     <constraint firstAttribute="trailing" secondItem="TnC-h8-ntC" secondAttribute="trailing" constant="8" id="tbY-hv-yNo"/>

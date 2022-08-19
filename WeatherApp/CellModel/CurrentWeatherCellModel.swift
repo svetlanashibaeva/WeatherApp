@@ -11,13 +11,15 @@ struct CurrentWeatherCellModel: TableCellModelProtocol {
     let cellIdentifier = "CurrentWeatherCell"
     
     let city: String
-    let currentTemp: Double
-    let feelsLike: Double
+    let currentTemp: String
+    let feelsLike: String
+    let forecast: String
     
     func configureCell(_ cell: UITableViewCell) {
         guard let cell = cell as? CurrentWeatherCell else { return }
         cell.cityNameLabel.text = city
-        cell.curentTemperatureLabel.text = "\(currentTemp)"
-        cell.feelsLikeLabel.text = "\(feelsLike)"
+        cell.curentTemperatureLabel.text = currentTemp + "°"
+        cell.forecastLabel.text = forecast
+        cell.feelsLikeLabel.text = "Ощущается как " + feelsLike + "°"
     }
 }

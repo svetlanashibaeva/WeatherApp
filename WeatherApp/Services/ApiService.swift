@@ -17,7 +17,7 @@ class ApiService {
         } else {
             self.decoder = JSONDecoder()
             self.decoder.keyDecodingStrategy = .convertFromSnakeCase
-            self.decoder.dateDecodingStrategy = .iso8601
+            self.decoder.dateDecodingStrategy = .secondsSince1970
         }
     }
     

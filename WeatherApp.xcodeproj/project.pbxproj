@@ -31,6 +31,11 @@
 		D300F72428AE3188000304B5 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72328AE3188000304B5 /* ApiService.swift */; };
 		D300F72628AE456F000304B5 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72528AE456F000304B5 /* WeatherService.swift */; };
 		D300F72928AE4A42000304B5 /* ShowErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72828AE4A42000304B5 /* ShowErrorAlert.swift */; };
+		D300F72B28AF61C2000304B5 /* ForecastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72A28AF61C2000304B5 /* ForecastModel.swift */; };
+		D300F72D28AF6619000304B5 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72C28AF6619000304B5 /* Coordinate.swift */; };
+		D300F72F28AF6766000304B5 /* MainWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F72E28AF6766000304B5 /* MainWeather.swift */; };
+		D300F73128AF6A7D000304B5 /* Double+ConvertToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F73028AF6A7D000304B5 /* Double+ConvertToString.swift */; };
+		D300F73328AF9D5D000304B5 /* Date+ConvertToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D300F73228AF9D5D000304B5 /* Date+ConvertToString.swift */; };
 		D3F33EBC28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F33EBB28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +66,11 @@
 		D300F72328AE3188000304B5 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		D300F72528AE456F000304B5 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		D300F72828AE4A42000304B5 /* ShowErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowErrorAlert.swift; sourceTree = "<group>"; };
+		D300F72A28AF61C2000304B5 /* ForecastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastModel.swift; sourceTree = "<group>"; };
+		D300F72C28AF6619000304B5 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		D300F72E28AF6766000304B5 /* MainWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWeather.swift; sourceTree = "<group>"; };
+		D300F73028AF6A7D000304B5 /* Double+ConvertToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+ConvertToString.swift"; sourceTree = "<group>"; };
+		D300F73228AF9D5D000304B5 /* Date+ConvertToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ConvertToString.swift"; sourceTree = "<group>"; };
 		D3F33EBB28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperaturePerDayCellModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,7 +110,7 @@
 				D3F33EBA28ACD69000FA35C1 /* Controllers */,
 				D3F33EB928ACD66700FA35C1 /* Cells */,
 				D3F33EB828ACD64E00FA35C1 /* Protocol */,
-				D3F33EB728ACD63A00FA35C1 /* Cell Model */,
+				D3F33EB728ACD63A00FA35C1 /* CellModel */,
 				D3009FDA28ABA3BD00236F44 /* SceneDelegate.swift */,
 				D3009FD828ABA3BD00236F44 /* AppDelegate.swift */,
 				D3009FDE28ABA3BD00236F44 /* Main.storyboard */,
@@ -118,6 +128,9 @@
 				D300F71B28AE2550000304B5 /* Errors */,
 				D300F71E28AE2699000304B5 /* WeatherEndpoint.swift */,
 				D300F72028AE2F09000304B5 /* CurrentWeatherModel.swift */,
+				D300F72A28AF61C2000304B5 /* ForecastModel.swift */,
+				D300F72C28AF6619000304B5 /* Coordinate.swift */,
+				D300F72E28AF6766000304B5 /* MainWeather.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -144,11 +157,13 @@
 			isa = PBXGroup;
 			children = (
 				D300F72828AE4A42000304B5 /* ShowErrorAlert.swift */,
+				D300F73028AF6A7D000304B5 /* Double+ConvertToString.swift */,
+				D300F73228AF9D5D000304B5 /* Date+ConvertToString.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		D3F33EB728ACD63A00FA35C1 /* Cell Model */ = {
+		D3F33EB728ACD63A00FA35C1 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
 				D3009FF928ABC82400236F44 /* DailyWeatherCellModel.swift */,
@@ -156,7 +171,7 @@
 				D3F33EBB28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift */,
 				D300F71228AE1BC3000304B5 /* TempForTheDayCollectionViewCellModel.swift */,
 			);
-			path = "Cell Model";
+			path = CellModel;
 			sourceTree = "<group>";
 		};
 		D3F33EB828ACD64E00FA35C1 /* Protocol */ = {
@@ -269,11 +284,16 @@
 				D300F71328AE1BC3000304B5 /* TempForTheDayCollectionViewCellModel.swift in Sources */,
 				D3009FFA28ABC82400236F44 /* DailyWeatherCellModel.swift in Sources */,
 				D3009FD928ABA3BD00236F44 /* AppDelegate.swift in Sources */,
+				D300F73128AF6A7D000304B5 /* Double+ConvertToString.swift in Sources */,
+				D300F72F28AF6766000304B5 /* MainWeather.swift in Sources */,
 				D300F71828AE24C5000304B5 /* ApiError.swift in Sources */,
+				D300F72D28AF6619000304B5 /* Coordinate.swift in Sources */,
 				D3009FF228ABB58B00236F44 /* CurrentWeatherCell.swift in Sources */,
 				D300F72928AE4A42000304B5 /* ShowErrorAlert.swift in Sources */,
 				D300F71F28AE2699000304B5 /* WeatherEndpoint.swift in Sources */,
 				D300F72628AE456F000304B5 /* WeatherService.swift in Sources */,
+				D300F73328AF9D5D000304B5 /* Date+ConvertToString.swift in Sources */,
+				D300F72B28AF61C2000304B5 /* ForecastModel.swift in Sources */,
 				D3009FF828ABC7B800236F44 /* DailyWeatherCell.swift in Sources */,
 				D300F72128AE2F09000304B5 /* CurrentWeatherModel.swift in Sources */,
 				D3009FDB28ABA3BD00236F44 /* SceneDelegate.swift in Sources */,

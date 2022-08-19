@@ -8,7 +8,8 @@
 import Foundation
 
 enum WeatherEndpoint {
-    case getWeather
+    case getCurrentWeather
+    case getForecast
 }
 
 extension WeatherEndpoint: EndpointProtocol {
@@ -19,15 +20,19 @@ extension WeatherEndpoint: EndpointProtocol {
     
     var path: String {
         switch self {
-        case .getWeather:
-            return "/data/3.0/onecall"
+        case .getCurrentWeather:
+            return "/data/2.5/weather"
+        case .getForecast:
+            return "/data/2.5/forecast"
         }
     }
     
     var params: [String : String] {
         var params = ["appid": "e382f69da8950542f476171cc68678de", "lang": "ru", "units": "metric"]
         switch self {
-        case .getWeather:
+        case .getCurrentWeather:
+            params["q"] = "Moscow"
+        case .getForecast:
             params["q"] = "Moscow"
         }
         return params

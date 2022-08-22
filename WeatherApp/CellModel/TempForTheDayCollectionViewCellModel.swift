@@ -16,6 +16,6 @@ struct TempForTheDayCollectionViewCellModel: CollectionCellModelProtocol {
     func configureCell(_ cell: UICollectionViewCell) {
         guard let cell = cell as? TempForTheDayCollectionViewCell else { return }
         cell.timeLabel.text = time
-        cell.tempLabel.text = temperature
+        cell.tempLabel.text = temperature + "°"
     }
 }

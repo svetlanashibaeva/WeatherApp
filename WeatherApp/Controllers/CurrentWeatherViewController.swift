@@ -118,14 +118,20 @@ class CurrentWeatherViewController: UIViewController {
         
         for index in 1...list.count - 1 {
             let interval = list[index]
+            let isDateEqual = date == interval.dt.day
+            let isListEnded = index == list.count - 1
             
-            if date == interval.dt.day {
+            if isDateEqual || isListEnded {
                 if interval.main.tempMax > max {
                     max = interval.main.tempMax
-                } else if interval.main.tempMin < min {
+                }
+                
+                if interval.main.tempMin < min {
                     min = interval.main.tempMin
                 }
-            } else {
+            }
+            
+            if !isDateEqual || isListEnded {
                 daily.append(DailyWeatherCellModel(
                     day: date,
                     minTemp: min.toString,

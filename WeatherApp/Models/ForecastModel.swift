@@ -9,7 +9,6 @@ import Foundation
 
 struct ForecastModel: Decodable {
     let list: [List]
-    let city: City
 }
 
 struct List: Decodable {
@@ -17,8 +16,3 @@ struct List: Decodable {
     let dt: Date
 }
 
-struct City: Decodable {
-    let id: Int
-    let name: String
-    let coord: Coordinate
-}

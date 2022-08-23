@@ -11,24 +11,26 @@ class CurrentWeatherViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    private let weatherService = WeatherService()
+    var city: City?
     
+    private let weatherService = WeatherService()
     private var cellModels: [TableCellModelProtocol] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        loadData()
+        
+        guard let city = city else { return }
+        loadData(city: city)
     }
     
-    private func loadData() {
+    private func loadData(city: City) {
         var currentWeather: CurrentWeather?
         var forecast: ForecastModel?
         var responseError: String?
         
         let taskLoadData = DispatchGroup()
         taskLoadData.enter()
-        weatherService.getWeather { result in
+        weatherService.getWeather(lat: city.lat, lon: city.lon) { result in
             switch result {
             case let .success(response):
                 currentWeather = response
@@ -41,7 +43,7 @@ class CurrentWeatherViewController: UIViewController {
         }
         
         taskLoadData.enter()
-        weatherService.getForecast { result in
+        weatherService.getForecast(lat: city.lat, lon: city.lon) { result in
             switch result {
             case let .success(response):
                 forecast = response
@@ -58,13 +60,21 @@ class CurrentWeatherViewController: UIViewController {
             if let responseError = responseError {
                 self.showError(error: responseError)
             } else if let currentWeather = currentWeather, let forecast = forecast {
-                self.cellModels = self.buildCellModels(currentWeather: currentWeather, forecast: forecast)
+                self.cellModels = self.buildCellModels(
+                    currentWeather: currentWeather,
+                    forecast: forecast,
+                    name: city.localName
+                )
                 self.tableView.reloadData()
             }
         }
     }
 
-    func buildCellModels(currentWeather: CurrentWeather, forecast: ForecastModel) -> [TableCellModelProtocol] {
+    func buildCellModels(
+        currentWeather: CurrentWeather,
+        forecast: ForecastModel,
+        name: String
+    ) -> [TableCellModelProtocol] {
 
         let hourly = forecast.list
             .prefix(8)
@@ -76,7 +86,7 @@ class CurrentWeatherViewController: UIViewController {
 
         let models: [TableCellModelProtocol] = [
             CurrentWeatherCellModel(
-                city: currentWeather.name,
+                city: name,
                 currentTemp: currentWeather.main.temp.toTempString,
                 feelsLike: currentWeather.main.feelsLike.toTempString,
                 forecast: currentWeather.weather.first?.description.capitalized ?? ""

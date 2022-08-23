@@ -27,4 +27,10 @@ extension Date {
         dateComponents.timeZone = NSTimeZone.system
         return calender.date(from: dateComponents)
     }
+    
+    var weekday: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        return dateFormatter.string(from: self)
+    }
 }

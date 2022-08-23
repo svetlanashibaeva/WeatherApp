@@ -9,7 +9,7 @@ import Foundation
 
 extension Double {
     
-    var toString: String {
-        return String(format: "%.1f", self)
+    var toTempString: String {
+        return String(format: "%.1f", self) + "°"
     }
 }

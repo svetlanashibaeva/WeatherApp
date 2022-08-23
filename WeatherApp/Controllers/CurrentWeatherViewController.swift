@@ -27,26 +27,6 @@ class CurrentWeatherViewController: UIViewController {
         var responseError: String?
         
         let taskLoadData = DispatchGroup()
-    
-        
-//        weatherService.getWeather { [weak self] result in
-//            guard let self = self else { return }
-//
-//            switch result {
-//            case let .success(response):
-//                self.cellModels = self.buildCellModels(currentWeather: response)
-//
-//            case let .failure(error):
-//                DispatchQueue.main.async {
-//                    self.showError(error: error.localizedDescription)
-//                }
-//            }
-//
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
-//        }
-        
         taskLoadData.enter()
         weatherService.getWeather { result in
             switch result {
@@ -89,7 +69,7 @@ class CurrentWeatherViewController: UIViewController {
         let hourly = forecast.list
             .prefix(8)
             .map { interval in
-            TempForTheDayCollectionViewCellModel(time: interval.dt.hour, temperature: interval.main.temp.toString)
+            TempForTheDayCollectionViewCellModel(time: interval.dt.hour, temperature: interval.main.temp.toTempString)
         }
 
         let daily = getDailyCellModels(list: forecast.list)
@@ -97,8 +77,8 @@ class CurrentWeatherViewController: UIViewController {
         let models: [TableCellModelProtocol] = [
             CurrentWeatherCellModel(
                 city: currentWeather.name,
-                currentTemp: currentWeather.main.temp.toString,
-                feelsLike: currentWeather.main.feelsLike.toString,
+                currentTemp: currentWeather.main.temp.toTempString,
+                feelsLike: currentWeather.main.feelsLike.toTempString,
                 forecast: currentWeather.weather.first?.description.capitalized ?? ""
             ),
             TemperaturePerDayCellModel(timesArray: hourly)
@@ -111,14 +91,15 @@ class CurrentWeatherViewController: UIViewController {
         guard let firstInterval = list.first else { return [] }
         
         var daily = [TableCellModelProtocol]()
-        var date = firstInterval.dt.day
+        var date = firstInterval.dt.weekday
         
         var max = firstInterval.main.tempMax
         var min = firstInterval.main.tempMin
         
         for index in 1...list.count - 1 {
             let interval = list[index]
-            let isDateEqual = date == interval.dt.day
+            
+            let isDateEqual = date == interval.dt.weekday
             let isListEnded = index == list.count - 1
             
             if isDateEqual || isListEnded {
@@ -133,11 +114,11 @@ class CurrentWeatherViewController: UIViewController {
             
             if !isDateEqual || isListEnded {
                 daily.append(DailyWeatherCellModel(
-                    day: date,
-                    minTemp: min.toString,
-                    maxTemp: max.toString
+                    day: daily.isEmpty ? "Сегодня" : date.capitalized,
+                    minTemp: min.toTempString,
+                    maxTemp: max.toTempString
                 ))
-                date = interval.dt.day
+                date = interval.dt.weekday
                 min = interval.main.tempMin
                 max = interval.main.tempMax
             }

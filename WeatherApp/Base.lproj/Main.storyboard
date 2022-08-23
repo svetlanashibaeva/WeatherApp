@@ -84,35 +84,35 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Сегодня" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xkt-mO-LOP">
-                                                    <rect key="frame" x="16" y="8" width="280" height="72"/>
+                                                    <rect key="frame" x="16" y="16" width="280" height="56"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="23°" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u6D-aN-CVg">
-                                                    <rect key="frame" x="370" y="8" width="28" height="72"/>
+                                                    <rect key="frame" x="370" y="16" width="28" height="56"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="13°" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Idi-OP-YA4">
-                                                    <rect key="frame" x="312" y="8" width="26" height="72"/>
+                                                    <rect key="frame" x="312" y="16" width="26" height="56"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="Xkt-mO-LOP" secondAttribute="bottom" constant="8" id="0PD-Og-MuQ"/>
-                                                <constraint firstItem="u6D-aN-CVg" firstAttribute="top" secondItem="jom-5N-bKv" secondAttribute="top" constant="8" id="5oR-Qk-GvO"/>
-                                                <constraint firstItem="Idi-OP-YA4" firstAttribute="top" secondItem="jom-5N-bKv" secondAttribute="top" constant="8" id="7CN-cO-Dhh"/>
+                                                <constraint firstAttribute="bottom" secondItem="Xkt-mO-LOP" secondAttribute="bottom" constant="16" id="0PD-Og-MuQ"/>
+                                                <constraint firstItem="u6D-aN-CVg" firstAttribute="top" secondItem="jom-5N-bKv" secondAttribute="top" constant="16" id="5oR-Qk-GvO"/>
+                                                <constraint firstItem="Idi-OP-YA4" firstAttribute="top" secondItem="jom-5N-bKv" secondAttribute="top" constant="16" id="7CN-cO-Dhh"/>
                                                 <constraint firstAttribute="trailing" secondItem="u6D-aN-CVg" secondAttribute="trailing" constant="16" id="Fca-e6-YEt"/>
                                                 <constraint firstItem="Xkt-mO-LOP" firstAttribute="leading" secondItem="jom-5N-bKv" secondAttribute="leading" constant="16" id="My7-nD-og0"/>
-                                                <constraint firstItem="Xkt-mO-LOP" firstAttribute="top" secondItem="jom-5N-bKv" secondAttribute="top" constant="8" id="kxh-y0-h8s"/>
-                                                <constraint firstAttribute="bottom" secondItem="Idi-OP-YA4" secondAttribute="bottom" constant="8" id="mhP-Ba-rB7"/>
+                                                <constraint firstItem="Xkt-mO-LOP" firstAttribute="top" secondItem="jom-5N-bKv" secondAttribute="top" constant="16" id="kxh-y0-h8s"/>
+                                                <constraint firstAttribute="bottom" secondItem="Idi-OP-YA4" secondAttribute="bottom" constant="16" id="mhP-Ba-rB7"/>
                                                 <constraint firstItem="Idi-OP-YA4" firstAttribute="leading" secondItem="Xkt-mO-LOP" secondAttribute="trailing" constant="16" id="nNZ-HP-N6W"/>
                                                 <constraint firstItem="u6D-aN-CVg" firstAttribute="leading" secondItem="Idi-OP-YA4" secondAttribute="trailing" constant="32" id="xFD-pN-3Ml"/>
-                                                <constraint firstAttribute="bottom" secondItem="u6D-aN-CVg" secondAttribute="bottom" constant="8" id="zpQ-7f-Avl"/>
+                                                <constraint firstAttribute="bottom" secondItem="u6D-aN-CVg" secondAttribute="bottom" constant="16" id="zpQ-7f-Avl"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

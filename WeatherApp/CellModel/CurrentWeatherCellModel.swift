@@ -18,8 +18,8 @@ struct CurrentWeatherCellModel: TableCellModelProtocol {
     func configureCell(_ cell: UITableViewCell) {
         guard let cell = cell as? CurrentWeatherCell else { return }
         cell.cityNameLabel.text = city
-        cell.curentTemperatureLabel.text = currentTemp + "°"
+        cell.curentTemperatureLabel.text = currentTemp
         cell.forecastLabel.text = forecast
-        cell.feelsLikeLabel.text = "Ощущается как " + feelsLike + "°"
+        cell.feelsLikeLabel.text = "Ощущается как " + feelsLike
     }
 }

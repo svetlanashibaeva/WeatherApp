@@ -17,7 +17,7 @@ struct DailyWeatherCellModel: TableCellModelProtocol {
     func configureCell(_ cell: UITableViewCell) {
         guard let cell = cell as? DailyWeatherCell else { return }
         cell.dayLabel.text = day
-        cell.minTempLabel.text = minTemp + "°"
-        cell.maxTempLabel.text = maxTemp + "°"
+        cell.minTempLabel.text = minTemp
+        cell.maxTempLabel.text = maxTemp
     } 
 }

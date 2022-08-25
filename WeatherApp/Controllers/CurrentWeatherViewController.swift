@@ -10,8 +10,11 @@ import UIKit
 class CurrentWeatherViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var cancelItem: UIBarButtonItem!
+    @IBOutlet weak var addToCoreDataItem: UIBarButtonItem!
     
     var city: City?
+    weak var delegate: CurrentWeatherViewControllerDelegate?
     
     private let weatherService = WeatherService()
     private var cellModels: [TableCellModelProtocol] = []
@@ -21,6 +24,19 @@ class CurrentWeatherViewController: UIViewController {
         
         guard let city = city else { return }
         loadData(city: city)
+    }
+    
+    @IBAction func addToCoreData(_ sender: Any) {
+        guard let city = city else { return }
+        CityEntity.saveCity(from: city)
+        CoreDataService.shared.saveContext {
+            self.delegate?.update()
+            self.dismiss(animated: true)  
+        }
+    }
+    
+    @IBAction func closeCurrentVC(_ sender: Any) {
+        dismiss(animated: true)
     }
     
     private func loadData(city: City) {
@@ -150,8 +166,6 @@ extension CurrentWeatherViewController: UITableViewDataSource {
         cellModel.configureCell(cell)
         return cell
     }
-    
-    
 }
 
 extension CurrentWeatherViewController: UITableViewDelegate {

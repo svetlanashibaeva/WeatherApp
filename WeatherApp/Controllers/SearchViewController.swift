@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import CoreData
 
-class SearchViewController: UIViewController {
-
+class SearchViewController: UIViewController, CurrentWeatherViewControllerDelegate {
+   
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    weak var delegate: CurrentWeatherViewControllerDelegate?
     
     private var cellModels: [TableCellModelProtocol] = []
     private let weatherService = WeatherService()
@@ -23,6 +26,8 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        showSavedCities()
         
         searchBar.delegate = self
     }
@@ -55,6 +60,24 @@ class SearchViewController: UIViewController {
         tableView.reloadData()
     }
     
+    func update() {
+        showSavedCities()
+        searchBar.text = ""
+    }
+    
+    private func showSavedCities() {
+        do {
+            let result = try CoreDataService.shared.context.fetch(CityEntity.fetchRequest())
+            cellModels = result.map { cityEntity in
+                SearchCellModel(city: City(from: cityEntity))
+            }
+        } catch {
+            cellModels = []
+        }
+        
+        tableView.reloadData()
+    }
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let currentVC = segue.destination as! CurrentWeatherViewController
@@ -62,6 +85,8 @@ class SearchViewController: UIViewController {
         if let city = city {
             currentVC.city = city
         }
+        
+        currentVC.delegate = self
     }
 
 }
@@ -106,3 +131,4 @@ extension SearchViewController: UISearchBarDelegate {
         })
     }
 }
+

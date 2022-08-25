@@ -15,4 +15,11 @@ struct City: Decodable {
     var localName: String {
         return localNames?["ru"] ?? name
     }
+    
+    init(from cityEntity: CityEntity) {
+        name = cityEntity.name
+        lat = cityEntity.lat
+        lon = cityEntity.lon
+        localNames = nil
+    }
 }

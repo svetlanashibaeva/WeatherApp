@@ -105,7 +105,7 @@ class CurrentWeatherViewController: UIViewController {
                 city: name,
                 currentTemp: currentWeather.main.temp.toTempString,
                 feelsLike: currentWeather.main.feelsLike.toTempString,
-                forecast: currentWeather.weather.first?.description.capitalized ?? ""
+                forecast: currentWeather.weather.first?.description.capitalizingFirstLetter ?? ""
             ),
             TemperaturePerDayCellModel(timesArray: hourly)
         ]

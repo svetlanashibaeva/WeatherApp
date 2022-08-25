@@ -23,6 +23,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     private var isLoading = false
     private var timer: Timer?
     private var city: City?
+    private var savedCities = [CityEntity]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,11 +68,12 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     
     private func showSavedCities() {
         do {
-            let result = try CoreDataService.shared.context.fetch(CityEntity.fetchRequest())
-            cellModels = result.map { cityEntity in
+            savedCities = try CoreDataService.shared.context.fetch(CityEntity.fetchRequest())
+            cellModels = savedCities.map { cityEntity in
                 SearchCellModel(city: City(from: cityEntity))
             }
         } catch {
+            savedCities = []
             cellModels = []
         }
         
@@ -87,6 +89,24 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
         }
         
         currentVC.delegate = self
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = deleteAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+            let savedCity = self.savedCities[indexPath.row]
+            CoreDataService.shared.context.delete(savedCity)
+            self.savedCities.remove(at: indexPath.row)
+            CoreDataService.shared.saveContext {
+                self.cellModels.remove(at: indexPath.row)
+                self.tableView.reloadData()
+            }
+        }
+        return action
     }
 
 }

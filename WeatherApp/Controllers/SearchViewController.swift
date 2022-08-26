@@ -56,11 +56,6 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
         }
     }
     
-    private func clear() {
-        cellModels = []
-        tableView.reloadData()
-    }
-    
     func update() {
         showSavedCities()
         searchBar.text = ""
@@ -86,6 +81,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
         
         if let city = city {
             currentVC.city = city
+            currentVC.isCitySaved = savedCities.contains(where: { $0.lat == city.lat && $0.lon == city.lon })
         }
         
         currentVC.delegate = self
@@ -142,7 +138,7 @@ extension SearchViewController: UISearchBarDelegate {
         timer?.invalidate()
         
         guard let searchText = searchBar.text, !searchText.isEmpty else {
-            clear()
+            showSavedCities()
             return
         }
         

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CurrentWeatherViewController: UIViewController {
 
@@ -14,6 +15,7 @@ class CurrentWeatherViewController: UIViewController {
     @IBOutlet weak var addToCoreDataItem: UIBarButtonItem!
     
     var city: City?
+    var isCitySaved = false
     weak var delegate: CurrentWeatherViewControllerDelegate?
     
     private let weatherService = WeatherService()
@@ -23,16 +25,23 @@ class CurrentWeatherViewController: UIViewController {
         super.viewDidLoad()
         
         guard let city = city else { return }
+
+        if isCitySaved {
+            addToCoreDataItem.isEnabled = false
+            addToCoreDataItem.title = ""
+        } 
+        
         loadData(city: city)
     }
     
     @IBAction func addToCoreData(_ sender: Any) {
         guard let city = city else { return }
-        CityEntity.saveCity(from: city)
-        CoreDataService.shared.saveContext {
-            self.delegate?.update()
-            self.dismiss(animated: true)  
-        }
+        
+            CityEntity.saveCity(from: city)
+            CoreDataService.shared.saveContext {
+                self.delegate?.update()
+                self.dismiss(animated: true)
+            }
     }
     
     @IBAction func closeCurrentVC(_ sender: Any) {

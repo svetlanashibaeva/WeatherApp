@@ -13,6 +13,7 @@ class CurrentWeatherViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var cancelItem: UIBarButtonItem!
     @IBOutlet weak var addToCoreDataItem: UIBarButtonItem!
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     var city: City?
     var isCitySaved = false
@@ -26,10 +27,12 @@ class CurrentWeatherViewController: UIViewController {
         
         guard let city = city else { return }
 
-        if isCitySaved {
+        if !isBeingPresented {
+            navigationBar.isHidden = true
+        } else if isCitySaved {
             addToCoreDataItem.isEnabled = false
             addToCoreDataItem.title = ""
-        } 
+        }
         
         loadData(city: city)
     }

@@ -44,6 +44,7 @@
 		D31EA71628B5FE6C0064F4A2 /* CityEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EA71428B5FE6C0064F4A2 /* CityEntity+CoreDataProperties.swift */; };
 		D31EA71828B5FF400064F4A2 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EA71728B5FF400064F4A2 /* CoreDataService.swift */; };
 		D368C7EB28BCD8FB008CEA48 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D368C7EA28BCD8FB008CEA48 /* PageViewController.swift */; };
+		D368C7EF28BE06B7008CEA48 /* PageControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D368C7EE28BE06B7008CEA48 /* PageControlViewController.swift */; };
 		D399B9D128B64602007F50A0 /* CurrentWeatherViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399B9D028B64602007F50A0 /* CurrentWeatherViewControllerDelegate.swift */; };
 		D399B9D328B7A880007F50A0 /* String+capitalized.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399B9D228B7A880007F50A0 /* String+capitalized.swift */; };
 		D3F33EBC28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F33EBB28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift */; };
@@ -89,6 +90,7 @@
 		D31EA71428B5FE6C0064F4A2 /* CityEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CityEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D31EA71728B5FF400064F4A2 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		D368C7EA28BCD8FB008CEA48 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		D368C7EE28BE06B7008CEA48 /* PageControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControlViewController.swift; sourceTree = "<group>"; };
 		D399B9D028B64602007F50A0 /* CurrentWeatherViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewControllerDelegate.swift; sourceTree = "<group>"; };
 		D399B9D228B7A880007F50A0 /* String+capitalized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+capitalized.swift"; sourceTree = "<group>"; };
 		D3F33EBB28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperaturePerDayCellModel.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				D3009FEF28ABAFAE00236F44 /* CurrentWeatherViewController.swift */,
 				D31EA70628B4C2650064F4A2 /* SearchViewController.swift */,
 				D368C7EA28BCD8FB008CEA48 /* PageViewController.swift */,
+				D368C7EE28BE06B7008CEA48 /* PageControlViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				D3009FF428ABC2DE00236F44 /* CurrentWeatherCellModel.swift in Sources */,
 				D3009FFE28ACCC8C00236F44 /* TempForTheDayCollectionViewCell.swift in Sources */,
 				D3009FE328ABA3BD00236F44 /* WeatherApp.xcdatamodeld in Sources */,
+				D368C7EF28BE06B7008CEA48 /* PageControlViewController.swift in Sources */,
 				D300F71528AE1D63000304B5 /* CollectionCellModelProtocol.swift in Sources */,
 				D3F33EBC28ACD75000FA35C1 /* TemperaturePerDayCellModel.swift in Sources */,
 				D300F71A28AE2519000304B5 /* ApiServiceError.swift in Sources */,

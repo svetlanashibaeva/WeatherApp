@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6nR-RJ-ofU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="35K-au-g1B">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -318,10 +318,54 @@
         <!--Page View Controller-->
         <scene sceneID="4c2-0N-Vv3">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="6nR-RJ-ofU" customClass="PageViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="PageVC" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="6nR-RJ-ofU" customClass="PageViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Il2-tG-0dX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1314" y="646"/>
+        </scene>
+        <!--Page Control View Controller-->
+        <scene sceneID="7Ko-kf-OVh">
+            <objects>
+                <viewController storyboardIdentifier="PageControlVC" id="35K-au-g1B" customClass="PageControlViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gAO-m5-XdP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCd-lV-udb">
+                                <rect key="frame" x="0.0" y="44" width="414" height="768"/>
+                                <connections>
+                                    <segue destination="6nR-RJ-ofU" kind="embed" id="kQ2-Gy-5UJ"/>
+                                </connections>
+                            </containerView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Xxq-Cr-cGM">
+                                <rect key="frame" x="149" y="836" width="116" height="26"/>
+                                <color key="pageIndicatorTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="changeDots:" destination="35K-au-g1B" eventType="valueChanged" id="I41-za-64o"/>
+                                </connections>
+                            </pageControl>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="I60-Dh-3cc"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Xxq-Cr-cGM" firstAttribute="centerX" secondItem="gAO-m5-XdP" secondAttribute="centerX" id="6YG-FQ-ZJ9"/>
+                            <constraint firstItem="FCd-lV-udb" firstAttribute="top" secondItem="I60-Dh-3cc" secondAttribute="top" id="ABJ-nx-fs8"/>
+                            <constraint firstItem="Xxq-Cr-cGM" firstAttribute="centerY" secondItem="gAO-m5-XdP" secondAttribute="centerY" constant="401" id="Eqq-TX-iHC"/>
+                            <constraint firstItem="I60-Dh-3cc" firstAttribute="bottom" secondItem="FCd-lV-udb" secondAttribute="bottom" constant="50" id="Pz9-2y-Ghm"/>
+                            <constraint firstItem="Xxq-Cr-cGM" firstAttribute="centerX" secondItem="gAO-m5-XdP" secondAttribute="centerX" id="huD-x8-5jN"/>
+                            <constraint firstItem="I60-Dh-3cc" firstAttribute="trailing" secondItem="FCd-lV-udb" secondAttribute="trailing" id="oaO-Yl-kWl"/>
+                            <constraint firstItem="Xxq-Cr-cGM" firstAttribute="top" secondItem="FCd-lV-udb" secondAttribute="bottom" constant="24" id="qhR-2x-d5C"/>
+                            <constraint firstItem="FCd-lV-udb" firstAttribute="leading" secondItem="I60-Dh-3cc" secondAttribute="leading" id="uKU-sU-kLR"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="pageControl" destination="Xxq-Cr-cGM" id="DVq-gx-eK9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qvs-QX-NXL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2104" y="688"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Gl9-iu-7OI">

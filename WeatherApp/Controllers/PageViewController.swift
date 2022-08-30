@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol CurrentWeatherPageDelegate: AnyObject {
+    func updateCurrentPage(index: Int)
+}
+
 class PageViewController: UIPageViewController {
     
     private var savedCities = [City]()
-    private var currentPage = 0
+    var currentPage = 0
+    weak var currentWeatherDelegate: CurrentWeatherPageDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +29,7 @@ class PageViewController: UIPageViewController {
             print(error.localizedDescription)
         }
     
-        if let currentWeatherVC = showCurrentViewControllerAtIndex(currentPage) {
-            setViewControllers([currentWeatherVC], direction: .forward, animated: true, completion: nil)
-        }
+        showSelectedPage(at: currentPage)
     }
 
     func showCurrentViewControllerAtIndex(_ index: Int) -> CurrentWeatherViewController? {
@@ -34,13 +37,14 @@ class PageViewController: UIPageViewController {
         guard index < savedCities.count
         else {
             return nil
-            
         }
         guard let currentVC = storyboard?.instantiateViewController(withIdentifier: "CurrentWeatherVC") as? CurrentWeatherViewController else { return nil }
         
         currentVC.city = savedCities[index]
         currentPage = index
         
+        currentWeatherDelegate?.updateCurrentPage(index: currentPage)
+ 
         return currentVC
     }
 }
@@ -55,5 +59,14 @@ extension PageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         return showCurrentViewControllerAtIndex(currentPage + 1)
+    }
+}
+
+extension PageViewController: CurrentWeatherPageContainerDelegate {
+    
+    func showSelectedPage(at index: Int) {
+        if let currentWeatherVC = showCurrentViewControllerAtIndex(index) {
+            setViewControllers([currentWeatherVC], direction: .forward, animated: true, completion: nil)
+        }
     }
 }

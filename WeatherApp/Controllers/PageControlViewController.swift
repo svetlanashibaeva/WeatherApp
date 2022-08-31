@@ -10,6 +10,7 @@ import UIKit
 class PageControlViewController: UIViewController {
     
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var listButton: UIButton!
     
     private var savedCities = [City]()
     private var currentPage = 0

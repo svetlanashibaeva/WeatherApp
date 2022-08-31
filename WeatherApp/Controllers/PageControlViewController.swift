@@ -7,41 +7,62 @@
 
 import UIKit
 
-protocol CurrentWeatherPageContainerDelegate: AnyObject {
-    func showSelectedPage(at index: Int)
-}
-
 class PageControlViewController: UIViewController {
     
     @IBOutlet weak var pageControl: UIPageControl!
-    weak var delegate: CurrentWeatherPageContainerDelegate?
+    
+    private var savedCities = [City]()
+    private var currentPage = 0
+    private var pageVC: UIPageViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let pageVC = children.first as? PageViewController else { return }
-        pageVC.currentWeatherDelegate = self
-        delegate = pageVC
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        let cities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
+        savedCities = cities.map { City(from: $0) }
+        pageControl.numberOfPages = cities.count
+
+        pageVC = children.first as? UIPageViewController
+        pageVC?.dataSource = self
         
-        do {
-            pageControl.numberOfPages = (try CoreDataService.shared.context.fetch(CityEntity.fetchRequest())).count
-        } catch let error as NSError{
-            print(error.localizedDescription)
-        }
+        showSelectedPage(at: currentPage)
     }
     
     @IBAction func changeDots(_ sender: UIPageControl) {
-        delegate?.showSelectedPage(at: sender.currentPage)
+        showSelectedPage(at: sender.currentPage)
+    }
+    
+    private func showCurrentViewControllerAtIndex(_ index: Int) -> CurrentWeatherViewController? {
+        guard index >= 0 else { return nil }
+        guard index < savedCities.count
+        else {
+            return nil
+        }
+        guard let currentVC = storyboard?.instantiateViewController(withIdentifier: "CurrentWeatherVC") as? CurrentWeatherViewController else { return nil }
+        
+        currentVC.city = savedCities[index]
+        currentPage = index
+        
+        pageControl.currentPage = index
+ 
+        return currentVC
+    }
+    
+    private func showSelectedPage(at index: Int) {
+        guard let currentWeatherVC = showCurrentViewControllerAtIndex(index) else { return }
+        pageVC?.setViewControllers([currentWeatherVC], direction: .forward, animated: true, completion: nil)
     }
 }
 
-extension PageControlViewController: CurrentWeatherPageDelegate {
+extension PageControlViewController: UIPageViewControllerDataSource {
     
-    func updateCurrentPage(index: Int) {
-        pageControl.currentPage = index
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        
+        return showCurrentViewControllerAtIndex(currentPage - 1)
+    }
+
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        
+        return showCurrentViewControllerAtIndex(currentPage + 1)
     }
 }

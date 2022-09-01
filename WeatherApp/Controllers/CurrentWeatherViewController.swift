@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 class CurrentWeatherViewController: UIViewController {
 
@@ -17,6 +18,7 @@ class CurrentWeatherViewController: UIViewController {
     
     var city: City?
     var isCitySaved = false
+    private let locationManager = CLLocationManager()
     weak var delegate: CurrentWeatherViewControllerDelegate?
     
     private let weatherService = WeatherService()
@@ -25,16 +27,25 @@ class CurrentWeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let city = city else { return }
-
-        if !isBeingPresented {
+        if let city = city {
+            
+            if !isBeingPresented {
+                navigationBar.isHidden = true
+            } else if isCitySaved {
+                addToCoreDataItem.isEnabled = false
+                addToCoreDataItem.title = ""
+            }
+            
+            loadData(lat: city.lat, lon: city.lon, name: city.localName)
+        } else {
             navigationBar.isHidden = true
-        } else if isCitySaved {
-            addToCoreDataItem.isEnabled = false
-            addToCoreDataItem.title = ""
+            if (CLLocationManager.locationServicesEnabled()) {
+                locationManager.delegate = self
+                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager.requestAlwaysAuthorization()
+                locationManager.startUpdatingLocation()
+            }
         }
-        
-        loadData(city: city)
     }
     
     @IBAction func addToCoreData(_ sender: Any) {
@@ -51,14 +62,14 @@ class CurrentWeatherViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    private func loadData(city: City) {
+    private func loadData(lat: Double, lon: Double, name: String) {
         var currentWeather: CurrentWeather?
         var forecast: ForecastModel?
         var responseError: String?
         
         let taskLoadData = DispatchGroup()
         taskLoadData.enter()
-        weatherService.getWeather(lat: city.lat, lon: city.lon) { result in
+        weatherService.getWeather(lat: lat, lon: lon) { result in
             switch result {
             case let .success(response):
                 currentWeather = response
@@ -71,7 +82,7 @@ class CurrentWeatherViewController: UIViewController {
         }
         
         taskLoadData.enter()
-        weatherService.getForecast(lat: city.lat, lon: city.lon) { result in
+        weatherService.getForecast(lat: lat, lon: lon) { result in
             switch result {
             case let .success(response):
                 forecast = response
@@ -91,10 +102,22 @@ class CurrentWeatherViewController: UIViewController {
                 self.cellModels = self.buildCellModels(
                     currentWeather: currentWeather,
                     forecast: forecast,
-                    name: city.localName
+                    name: name
                 )
                 self.tableView.reloadData()
             }
+        }
+    }
+    
+    func setCityName(from location: CLLocation) {
+        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
+            guard let placemark = placemarks?.first,
+                  let cityName = placemark.locality
+            else {  return }
+            
+            self?.loadData(lat: location.coordinate.latitude, lon: location.coordinate.longitude, name: cityName)
         }
     }
 
@@ -180,6 +203,14 @@ extension CurrentWeatherViewController: UITableViewDataSource {
     }
 }
 
-extension CurrentWeatherViewController: UITableViewDelegate {
+extension CurrentWeatherViewController: CLLocationManagerDelegate {
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = manager.location else { return }
+        setCityName(from: location)
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        
+    }
 }

@@ -85,6 +85,9 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
         }
         
         currentVC.delegate = self
+        
+//        let pageVC = storyboard?.instantiateViewController(withIdentifier: "PageControlVC") as? PageControlViewController
+        
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

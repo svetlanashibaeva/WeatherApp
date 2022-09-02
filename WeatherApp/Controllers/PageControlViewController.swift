@@ -18,13 +18,14 @@ class PageControlViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let cities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
         savedCities = cities.map { City(from: $0) }
-        pageControl.numberOfPages = cities.count
+        pageControl.numberOfPages = cities.count + 1
 
         pageVC = children.first as? UIPageViewController
         pageVC?.dataSource = self
+        pageVC?.delegate = self
         
         showSelectedPage(at: currentPage)
     }
@@ -35,17 +36,18 @@ class PageControlViewController: UIViewController {
     
     private func showCurrentViewControllerAtIndex(_ index: Int) -> CurrentWeatherViewController? {
         guard index >= 0 else { return nil }
-        guard index < savedCities.count
+        guard index < savedCities.count + 1
         else {
             return nil
         }
         guard let currentVC = storyboard?.instantiateViewController(withIdentifier: "CurrentWeatherVC") as? CurrentWeatherViewController else { return nil }
         
-        currentVC.city = savedCities[index]
-        currentPage = index
+        if index != 0 {
+            currentVC.city = savedCities[index - 1]
+        } else {
+            currentVC.city = nil
+        }
         
-        pageControl.currentPage = index
- 
         return currentVC
     }
     
@@ -65,5 +67,15 @@ extension PageControlViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         return showCurrentViewControllerAtIndex(currentPage + 1)
+    }
+}
+
+extension PageControlViewController: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        guard let currentVC = pendingViewControllers.first as? CurrentWeatherViewController else { return }
+        let index = Int(savedCities.firstIndex { currentVC.city == $0 } ?? -1)
+        currentPage = index + 1
+        pageControl.currentPage = index + 1
     }
 }

@@ -42,7 +42,7 @@ class CurrentWeatherViewController: UIViewController {
             if (CLLocationManager.locationServicesEnabled()) {
                 locationManager.delegate = self
                 locationManager.desiredAccuracy = kCLLocationAccuracyBest
-                locationManager.requestAlwaysAuthorization()
+                locationManager.requestWhenInUseAuthorization()
                 locationManager.startUpdatingLocation()
             }
         }
@@ -51,11 +51,11 @@ class CurrentWeatherViewController: UIViewController {
     @IBAction func addToCoreData(_ sender: Any) {
         guard let city = city else { return }
         
-            CityEntity.saveCity(from: city)
-            CoreDataService.shared.saveContext {
-                self.delegate?.update()
-                self.dismiss(animated: true)
-            }
+        CityEntity.saveCity(from: city)
+        CoreDataService.shared.saveContext {
+            self.delegate?.update()
+            self.dismiss(animated: true)
+        }
     }
     
     @IBAction func closeCurrentVC(_ sender: Any) {

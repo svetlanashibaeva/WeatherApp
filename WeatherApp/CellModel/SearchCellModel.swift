@@ -10,11 +10,11 @@ import UIKit
 struct SearchCellModel: TableCellModelProtocol {
     let cellIdentifier = "SearchCell"
     
-    let city: City
+    let city: City?
     
     func configureCell(_ cell: UITableViewCell) {
         guard let cell = cell as? SearchCell else { return }
         
-        cell.cityNameLabel.text = city.name
+        cell.cityNameLabel.text = city?.name ?? "Текущее место"
     }
 }

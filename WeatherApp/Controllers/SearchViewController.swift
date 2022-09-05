@@ -68,14 +68,11 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     }
     
     private func showSavedCities() {
-        do {
-            savedCities = try CoreDataService.shared.context.fetch(CityEntity.fetchRequest())
-            cellModels = savedCities.map { cityEntity in
-                SearchCellModel(city: City(from: cityEntity))
-            }
-        } catch {
-            savedCities = []
-            cellModels = []
+        cellModels = [SearchCellModel(city: nil)]
+        
+        savedCities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
+        cellModels += savedCities.map { cityEntity in
+            SearchCellModel(city: City(from: cityEntity))
         }
         
         tableView.reloadData()
@@ -100,13 +97,13 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            let savedCity = self.savedCities[indexPath.row]
+            let savedCity = self.savedCities[indexPath.row - 1]
             CoreDataService.shared.context.delete(savedCity)
-            self.savedCities.remove(at: indexPath.row)
-            self.delegate?.updateSavedCities()
+            self.savedCities.remove(at: indexPath.row - 1)
             CoreDataService.shared.saveContext {
                 self.cellModels.remove(at: indexPath.row)
-                self.tableView.reloadData()
+                self.delegate?.updateSavedCities()
+                self.tableView.reloadData()    
             }
         }
         return action
@@ -133,12 +130,12 @@ extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        city = (cellModels[indexPath.row] as? SearchCellModel)?.city
         
         if searchBar.text == "" {
-            delegate?.showSelectedPage(at: indexPath.row + 1)
+            delegate?.showSelectedPage(at: indexPath.row)
             dismiss(animated: true)
         } else {
+            city = (cellModels[indexPath.row] as? SearchCellModel)?.city
             performSegue(withIdentifier: "ShowCurrentWeather", sender: self)
         }
     }

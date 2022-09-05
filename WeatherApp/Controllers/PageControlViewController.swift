@@ -54,6 +54,13 @@ class PageControlViewController: UIViewController {
             searchVC.delegate = self
         }   
     }
+    
+    private func setCurrentPage(viewControllers: [UIViewController]) {
+        guard let currentVC = viewControllers.first as? CurrentWeatherViewController else { return }
+        let index = Int(savedCities.firstIndex { currentVC.city == $0 } ?? -1)
+        currentPage = index + 1
+        pageControl.currentPage = index + 1
+    }
 }
 
 extension PageControlViewController: UIPageViewControllerDataSource {
@@ -72,10 +79,12 @@ extension PageControlViewController: UIPageViewControllerDataSource {
 extension PageControlViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        guard let currentVC = pendingViewControllers.first as? CurrentWeatherViewController else { return }
-        let index = Int(savedCities.firstIndex { currentVC.city == $0 } ?? -1)
-        currentPage = index + 1
-        pageControl.currentPage = index + 1
+        setCurrentPage(viewControllers: pendingViewControllers)
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard !completed else { return }
+        setCurrentPage(viewControllers: previousViewControllers)
     }
 }
 

@@ -10,7 +10,6 @@ import UIKit
 class PageControlViewController: UIViewController {
     
     @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet weak var listButton: UIButton!
     
     private var savedCities = [City]()
     private var currentPage = 0
@@ -18,10 +17,8 @@ class PageControlViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let cities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
-        savedCities = cities.map { City(from: $0) }
-        pageControl.numberOfPages = cities.count + 1
+ 
+        updateSavedCities()
 
         pageVC = children.first as? UIPageViewController
         pageVC?.dataSource = self
@@ -51,9 +48,11 @@ class PageControlViewController: UIViewController {
         return currentVC
     }
     
-    private func showSelectedPage(at index: Int) {
-        guard let currentWeatherVC = showCurrentViewControllerAtIndex(index) else { return }
-        pageVC?.setViewControllers([currentWeatherVC], direction: .forward, animated: true, completion: nil)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowSearch" {
+            let searchVC = segue.destination as! SearchViewController
+            searchVC.delegate = self
+        }   
     }
 }
 
@@ -77,5 +76,21 @@ extension PageControlViewController: UIPageViewControllerDelegate {
         let index = Int(savedCities.firstIndex { currentVC.city == $0 } ?? -1)
         currentPage = index + 1
         pageControl.currentPage = index + 1
+    }
+}
+
+extension PageControlViewController: SearchControllerDelegate {
+    
+    func updateSavedCities() {
+        let cities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
+        savedCities = cities.map { City(from: $0) }
+        pageControl.numberOfPages = cities.count + 1
+    }
+
+    func showSelectedPage(at index: Int) {
+        guard let currentWeatherVC = showCurrentViewControllerAtIndex(index) else { return }
+        pageVC?.setViewControllers([currentWeatherVC], direction: .forward, animated: true, completion: nil)
+        currentPage = index
+        pageControl.currentPage = index
     }
 }

@@ -8,13 +8,18 @@
 import UIKit
 import CoreData
 
+protocol SearchControllerDelegate: AnyObject {
+    func showSelectedPage(at index: Int)
+    func updateSavedCities()
+}
+
 class SearchViewController: UIViewController, CurrentWeatherViewControllerDelegate {
    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    weak var delegate: CurrentWeatherViewControllerDelegate?
-    
+    weak var delegate: SearchControllerDelegate?
+
     private var cellModels: [TableCellModelProtocol] = []
     private let weatherService = WeatherService()
     
@@ -57,6 +62,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     }
     
     func update() {
+        delegate?.updateSavedCities()
         showSavedCities()
         searchBar.text = ""
     }
@@ -83,11 +89,8 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
             currentVC.city = city
             currentVC.isCitySaved = savedCities.contains(where: { $0.lat == city.lat && $0.lon == city.lon })
         }
-        
+
         currentVC.delegate = self
-        
-//        let pageVC = storyboard?.instantiateViewController(withIdentifier: "PageControlVC") as? PageControlViewController
-        
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -100,6 +103,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
             let savedCity = self.savedCities[indexPath.row]
             CoreDataService.shared.context.delete(savedCity)
             self.savedCities.remove(at: indexPath.row)
+            self.delegate?.updateSavedCities()
             CoreDataService.shared.saveContext {
                 self.cellModels.remove(at: indexPath.row)
                 self.tableView.reloadData()
@@ -131,7 +135,12 @@ extension SearchViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         city = (cellModels[indexPath.row] as? SearchCellModel)?.city
         
-        performSegue(withIdentifier: "ShowCurrentWeather", sender: self)
+        if searchBar.text == "" {
+            delegate?.showSelectedPage(at: indexPath.row + 1)
+            dismiss(animated: true)
+        } else {
+            performSegue(withIdentifier: "ShowCurrentWeather", sender: self)
+        }
     }
 }
 

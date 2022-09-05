@@ -8,13 +8,18 @@
 import UIKit
 import CoreData
 
+protocol SearchControllerDelegate: AnyObject {
+    func showSelectedPage(at index: Int)
+    func updateSavedCities()
+}
+
 class SearchViewController: UIViewController, CurrentWeatherViewControllerDelegate {
    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    weak var delegate: CurrentWeatherViewControllerDelegate?
-    
+    weak var delegate: SearchControllerDelegate?
+
     private var cellModels: [TableCellModelProtocol] = []
     private let weatherService = WeatherService()
     
@@ -57,19 +62,17 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     }
     
     func update() {
+        delegate?.updateSavedCities()
         showSavedCities()
         searchBar.text = ""
     }
     
     private func showSavedCities() {
-        do {
-            savedCities = try CoreDataService.shared.context.fetch(CityEntity.fetchRequest())
-            cellModels = savedCities.map { cityEntity in
-                SearchCellModel(city: City(from: cityEntity))
-            }
-        } catch {
-            savedCities = []
-            cellModels = []
+        cellModels = [SearchCellModel(city: nil)]
+        
+        savedCities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
+        cellModels += savedCities.map { cityEntity in
+            SearchCellModel(city: City(from: cityEntity))
         }
         
         tableView.reloadData()
@@ -83,11 +86,8 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
             currentVC.city = city
             currentVC.isCitySaved = savedCities.contains(where: { $0.lat == city.lat && $0.lon == city.lon })
         }
-        
+
         currentVC.delegate = self
-        
-//        let pageVC = storyboard?.instantiateViewController(withIdentifier: "PageControlVC") as? PageControlViewController
-        
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -97,12 +97,13 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
-            let savedCity = self.savedCities[indexPath.row]
+            let savedCity = self.savedCities[indexPath.row - 1]
             CoreDataService.shared.context.delete(savedCity)
-            self.savedCities.remove(at: indexPath.row)
+            self.savedCities.remove(at: indexPath.row - 1)
             CoreDataService.shared.saveContext {
                 self.cellModels.remove(at: indexPath.row)
-                self.tableView.reloadData()
+                self.delegate?.updateSavedCities()
+                self.tableView.reloadData()    
             }
         }
         return action
@@ -129,9 +130,14 @@ extension SearchViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        city = (cellModels[indexPath.row] as? SearchCellModel)?.city
         
-        performSegue(withIdentifier: "ShowCurrentWeather", sender: self)
+        if searchBar.text == "" {
+            delegate?.showSelectedPage(at: indexPath.row)
+            dismiss(animated: true)
+        } else {
+            city = (cellModels[indexPath.row] as? SearchCellModel)?.city
+            performSegue(withIdentifier: "ShowCurrentWeather", sender: self)
+        }
     }
 }
 

@@ -296,6 +296,35 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Yfw-Be-aQn"/>
                                 </connections>
                             </tableView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jg2-9P-hEV">
+                                <rect key="frame" x="0.0" y="56" width="414" height="737"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bhh-WL-9GU">
+                                        <rect key="frame" x="128.5" y="353" width="157" height="31"/>
+                                        <color key="backgroundColor" red="0.0" green="0.45882352939999999" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Открыть настройки"/>
+                                        <connections>
+                                            <action selector="openSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PU7-ed-cdh"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Разрешите приложению получать Вашу текущую позицию" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgw-wQ-wJT">
+                                        <rect key="frame" x="16" y="283" width="382" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="dgw-wQ-wJT" firstAttribute="leading" secondItem="Jg2-9P-hEV" secondAttribute="leading" constant="16" id="FIT-8H-HLl"/>
+                                    <constraint firstItem="Bhh-WL-9GU" firstAttribute="centerX" secondItem="Jg2-9P-hEV" secondAttribute="centerX" id="JDS-Hs-Yfb"/>
+                                    <constraint firstItem="Bhh-WL-9GU" firstAttribute="top" secondItem="dgw-wQ-wJT" secondAttribute="bottom" constant="29" id="gdH-kf-4Ck"/>
+                                    <constraint firstAttribute="trailing" secondItem="dgw-wQ-wJT" secondAttribute="trailing" constant="16" id="jUj-nC-6uM"/>
+                                    <constraint firstItem="Bhh-WL-9GU" firstAttribute="centerY" secondItem="Jg2-9P-hEV" secondAttribute="centerY" id="vkr-0w-q3I"/>
+                                </constraints>
+                            </view>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZX-LN-7wJ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                                 <items>
@@ -316,13 +345,17 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Jg2-9P-hEV" secondAttribute="bottom" id="05n-y4-94G"/>
                             <constraint firstItem="0ZX-LN-7wJ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="A1y-oX-h4D"/>
                             <constraint firstItem="0ZX-LN-7wJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="A8x-5e-lku"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="t5g-HX-W74" secondAttribute="trailing" id="HaH-w1-1eK"/>
+                            <constraint firstItem="Jg2-9P-hEV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fDF-2m-V4d"/>
+                            <constraint firstItem="Jg2-9P-hEV" firstAttribute="top" secondItem="0ZX-LN-7wJ" secondAttribute="bottom" id="fTd-MZ-9RY"/>
                             <constraint firstItem="0ZX-LN-7wJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="iTy-tp-fuK"/>
                             <constraint firstItem="t5g-HX-W74" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jza-ZI-1Hw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="t5g-HX-W74" secondAttribute="bottom" id="nX4-AA-iCg"/>
                             <constraint firstItem="t5g-HX-W74" firstAttribute="top" secondItem="0ZX-LN-7wJ" secondAttribute="bottom" id="qls-sh-wmh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Jg2-9P-hEV" secondAttribute="trailing" id="txE-6a-HeP"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -331,6 +364,7 @@
                     <connections>
                         <outlet property="addToCoreDataItem" destination="VEz-d2-m9G" id="XVc-Wj-bs3"/>
                         <outlet property="cancelItem" destination="XQs-Xf-5yI" id="fBd-hB-d5V"/>
+                        <outlet property="disableLocationView" destination="Jg2-9P-hEV" id="8zO-iv-cj9"/>
                         <outlet property="navigationBar" destination="0ZX-LN-7wJ" id="fhP-Hp-uXN"/>
                         <outlet property="tableView" destination="t5g-HX-W74" id="QF6-dk-kph"/>
                     </connections>

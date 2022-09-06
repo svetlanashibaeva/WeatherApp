@@ -15,6 +15,7 @@ class CurrentWeatherViewController: UIViewController {
     @IBOutlet weak var cancelItem: UIBarButtonItem!
     @IBOutlet weak var addToCoreDataItem: UIBarButtonItem!
     @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var disableLocationView: UIView!
     
     var city: City?
     var isCitySaved = false
@@ -63,6 +64,12 @@ class CurrentWeatherViewController: UIViewController {
     
     @IBAction func closeCurrentVC(_ sender: Any) {
         dismiss(animated: true)
+    }
+    
+    @IBAction func openSettings(_ sender: Any) {
+        if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
     }
     
     private func showActivityIndicator() {
@@ -228,6 +235,6 @@ extension CurrentWeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        
+        disableLocationView.isHidden = !(manager.authorizationStatus == .denied || manager.authorizationStatus == .restricted)
     }
 }

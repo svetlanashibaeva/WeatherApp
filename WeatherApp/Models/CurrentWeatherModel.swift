@@ -9,13 +9,7 @@ import Foundation
 
 struct CurrentWeather: Decodable {
     let coord: Coordinate
-    let weather: [Weather]
+    let weather: [WeatherDescription]
     let main: MainWeather
     let name: String
-}
-
-struct Weather: Decodable {
-    let id: Int
-    let main: String
-    let description: String
 }

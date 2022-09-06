@@ -22,10 +22,13 @@ class CurrentWeatherViewController: UIViewController {
     weak var delegate: CurrentWeatherViewControllerDelegate?
     
     private let weatherService = WeatherService()
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     private var cellModels: [TableCellModelProtocol] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        showActivityIndicator()
         
         if let city = city {
             
@@ -62,10 +65,18 @@ class CurrentWeatherViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    private func showActivityIndicator() {
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+    }
+    
     private func loadData(lat: Double, lon: Double, name: String) {
         var currentWeather: CurrentWeather?
         var forecast: ForecastModel?
         var responseError: String?
+        
+        activityIndicator.startAnimating()
         
         let taskLoadData = DispatchGroup()
         taskLoadData.enter()
@@ -104,6 +115,7 @@ class CurrentWeatherViewController: UIViewController {
                     forecast: forecast,
                     name: name
                 )
+                self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
             }
         }
@@ -130,7 +142,11 @@ class CurrentWeatherViewController: UIViewController {
         let hourly = forecast.list
             .prefix(8)
             .map { interval in
-            TempForTheDayCollectionViewCellModel(time: interval.dt.hour, temperature: interval.main.temp.toTempString)
+                TempForTheDayCollectionViewCellModel(
+                    time: interval.dt.hour,
+                    temperature: interval.main.temp.toTempString,
+                    weatherIcon: interval.weather.first?.main.imageName ?? ""
+                )
         }
 
         let daily = getDailyCellModels(list: forecast.list)
@@ -140,7 +156,8 @@ class CurrentWeatherViewController: UIViewController {
                 city: name,
                 currentTemp: currentWeather.main.temp.toTempString,
                 feelsLike: currentWeather.main.feelsLike.toTempString,
-                forecast: currentWeather.weather.first?.description.capitalizingFirstLetter ?? ""
+                forecast: currentWeather.weather.first?.description.capitalizingFirstLetter ?? "",
+                weatherIcon: currentWeather.weather.first?.main.imageName ?? ""
             ),
             TemperaturePerDayCellModel(timesArray: hourly)
         ]

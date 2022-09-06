@@ -12,10 +12,12 @@ struct TempForTheDayCollectionViewCellModel: CollectionCellModelProtocol {
     
     let time: String
     let temperature: String
+    let weatherIcon: String
     
     func configureCell(_ cell: UICollectionViewCell) {
         guard let cell = cell as? TempForTheDayCollectionViewCell else { return }
         cell.timeLabel.text = time
         cell.tempLabel.text = temperature
+        cell.weatherIcon.image = UIImage(systemName: weatherIcon)
     }
 }

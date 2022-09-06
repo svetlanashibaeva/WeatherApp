@@ -14,6 +14,7 @@ struct CurrentWeatherCellModel: TableCellModelProtocol {
     let currentTemp: String
     let feelsLike: String
     let forecast: String
+    let weatherIcon: String
     
     func configureCell(_ cell: UITableViewCell) {
         guard let cell = cell as? CurrentWeatherCell else { return }
@@ -21,5 +22,6 @@ struct CurrentWeatherCellModel: TableCellModelProtocol {
         cell.curentTemperatureLabel.text = currentTemp
         cell.forecastLabel.text = forecast
         cell.feelsLikeLabel.text = "Ощущается как " + feelsLike
+        cell.weatherIcon.image = UIImage(systemName: weatherIcon)
     }
 }

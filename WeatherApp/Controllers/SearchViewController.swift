@@ -23,9 +23,8 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     private var cellModels: [TableCellModelProtocol] = []
     private let weatherService = WeatherService()
     
-    private let activityIndicator = UIActivityIndicatorView(style: .medium)
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
    
-    private var isLoading = false
     private var timer: Timer?
     private var city: City?
     private var savedCities = [CityEntity]()
@@ -33,14 +32,23 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        showActivityIndicator()
         showSavedCities()
         
         searchBar.delegate = self
     }
     
+    private func showActivityIndicator() {
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        activityIndicator.style = .large
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+    }
+    
     func loadData(city: String?) {
         guard let city = city, !city.isEmpty else { return }
-        isLoading = true
+        
+        activityIndicator.startAnimating()
         
         weatherService.getCity(name: city) { result in
             switch result {
@@ -55,8 +63,8 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
             }
             
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
                 self.tableView.reloadData()
-                self.isLoading = false
             }
         }
     }

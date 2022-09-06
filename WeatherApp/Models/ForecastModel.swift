@@ -14,5 +14,6 @@ struct ForecastModel: Decodable {
 struct List: Decodable {
     let main: MainWeather
     let dt: Date
+    let weather: [WeatherDescription]
 }
 

@@ -8,6 +8,7 @@
 import Foundation
 
 extension String {
+    
     var capitalizingFirstLetter: String {
         return prefix(1).capitalized + dropFirst()
     }

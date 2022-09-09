@@ -15,19 +15,6 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
-    var day: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.YY"
-        return dateFormatter.string(from: self)
-    }
-    
-    var onlyDate: Date? {
-        let calender = Calendar.current
-        var dateComponents = calender.dateComponents([.year, .month, .day], from: self)
-        dateComponents.timeZone = NSTimeZone.system
-        return calender.date(from: dateComponents)
-    }
-    
     var weekday: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"

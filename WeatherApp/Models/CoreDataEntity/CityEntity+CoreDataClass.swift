@@ -13,7 +13,6 @@ import CoreData
 public class CityEntity: NSManagedObject {
     
     static func saveCity(from city: City) {
-        
         let cityEntity = CityEntity(context: CoreDataService.shared.context)
         
         cityEntity.name = city.name

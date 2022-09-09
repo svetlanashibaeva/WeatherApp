@@ -22,13 +22,12 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
 
     private var cellModels: [TableCellModelProtocol] = []
     private let weatherService = WeatherService()
-    
-    private let activityIndicator = UIActivityIndicatorView(style: .large)
-   
-    private var timer: Timer?
     private var city: City?
     private var savedCities = [CityEntity]()
     
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
+    private var timer: Timer?
+     
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,7 +49,9 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
         
         activityIndicator.startAnimating()
         
-        weatherService.getCity(name: city) { result in
+        weatherService.getCity(name: city) { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
             case let .success(response):
                 self.cellModels = response.map { city in
@@ -104,7 +105,9 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     }
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
-        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
+            guard let self = self else { return }
+            
             let savedCity = self.savedCities[indexPath.row - 1]
             CoreDataService.shared.context.delete(savedCity)
             self.savedCities.remove(at: indexPath.row - 1)
@@ -116,7 +119,6 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
         }
         return action
     }
-
 }
 
 extension SearchViewController: UITableViewDataSource {
@@ -131,7 +133,6 @@ extension SearchViewController: UITableViewDataSource {
         cellModel.configureCell(cell)
         return cell
     }
-
 }
 
 extension SearchViewController: UITableViewDelegate {
@@ -159,7 +160,7 @@ extension SearchViewController: UISearchBarDelegate {
             return
         }
         
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { [weak self] (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { [weak self] timer in
             self?.loadData(city: searchText)
         })
     }

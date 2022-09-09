@@ -45,17 +45,15 @@ class ApiService {
             guard let self = self else { return }
             
             if let data = data {
-                print(String(data: data, encoding: .utf8) ?? "")
-                
                 if let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) {
-                    guard let result = self.parseJSON(from: data, with: T.self) else { return completion(Result.failure(ApiServiceError.parseError)) }
-                    
+                    guard let result = self.parseJSON(from: data, with: T.self) else {
+                        return completion(Result.failure(ApiServiceError.parseError))
+                    }
                     completion(Result.success(result))
                     
                 } else {
                     guard let apiError = self.parseJSON(from: data, with: ApiError.self) else {
-                        completion(Result.failure(ApiServiceError.unknownError))
-                        return
+                        return completion(Result.failure(ApiServiceError.unknownError))
                     }
                     completion(Result.failure(ApiServiceError.customError(error: apiError.message)))
                 }

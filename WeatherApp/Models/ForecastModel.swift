@@ -16,4 +16,3 @@ struct List: Decodable {
     let dt: Date
     let weather: [WeatherDescription]
 }
-

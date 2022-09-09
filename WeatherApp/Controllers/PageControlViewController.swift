@@ -39,11 +39,7 @@ class PageControlViewController: UIViewController {
         }
         guard let currentVC = storyboard?.instantiateViewController(withIdentifier: "CurrentWeatherVC") as? CurrentWeatherViewController else { return nil }
         
-        if index != 0 {
-            currentVC.city = savedCities[index - 1]
-        } else {
-            currentVC.city = nil
-        }
+        currentVC.city = index != 0 ? savedCities[index - 1] : nil
         
         return currentVC
     }

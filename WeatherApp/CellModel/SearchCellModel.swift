@@ -14,7 +14,6 @@ struct SearchCellModel: TableCellModelProtocol {
     
     func configureCell(_ cell: UITableViewCell) {
         guard let cell = cell as? SearchCell else { return }
-        
         cell.cityNameLabel.text = city?.name ?? "Текущее место"
     }
 }

@@ -19,11 +19,11 @@ class CurrentWeatherViewController: UIViewController {
     
     var city: City?
     var isCitySaved = false
-    private let locationManager = CLLocationManager()
     weak var delegate: CurrentWeatherViewControllerDelegate?
     
-    private let weatherService = WeatherService()
+    private let locationManager = CLLocationManager()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
+    private let weatherService = WeatherService()
     private var cellModels: [TableCellModelProtocol] = []
     
     override func viewDidLoad() {
@@ -129,22 +129,17 @@ class CurrentWeatherViewController: UIViewController {
     }
     
     func setCityName(from location: CLLocation) {
-        
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
             guard let placemark = placemarks?.first,
                   let cityName = placemark.locality
-            else {  return }
+            else { return }
             
             self?.loadData(lat: location.coordinate.latitude, lon: location.coordinate.longitude, name: cityName)
         }
     }
 
-    func buildCellModels(
-        currentWeather: CurrentWeather,
-        forecast: ForecastModel,
-        name: String
-    ) -> [TableCellModelProtocol] {
+    func buildCellModels(currentWeather: CurrentWeather, forecast: ForecastModel, name: String) -> [TableCellModelProtocol] {
 
         let hourly = forecast.list
             .prefix(8)
@@ -168,7 +163,6 @@ class CurrentWeatherViewController: UIViewController {
             ),
             TemperaturePerDayCellModel(timesArray: hourly)
         ]
-
         return models + daily
     }
     
@@ -208,7 +202,6 @@ class CurrentWeatherViewController: UIViewController {
                 max = interval.main.tempMax
             }
         }
-        
         return daily
     }
 }

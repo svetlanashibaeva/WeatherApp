@@ -100,6 +100,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard searchBar.text == "" && indexPath.row != 0 else { return nil }
         let delete = deleteAction(at: indexPath)
         return UISwipeActionsConfiguration(actions: [delete])
     }

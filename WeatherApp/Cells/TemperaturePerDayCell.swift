@@ -8,10 +8,52 @@
 import UIKit
 
 class TemperaturePerDayCell: UITableViewCell {
-
-    @IBOutlet weak var collectionView: UICollectionView!
+    
+    lazy var collectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.itemSize = CGSize(width: 80, height: 120)
+        
+        return UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+    }()
     
     var cellModels = [CollectionCellModelProtocol]()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+  
+        configure()
+        addSubviews()
+        makeConstraints()
+    }
+        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+private extension TemperaturePerDayCell {
+    
+    func configure() {
+        collectionView.dataSource = self
+        collectionView.register(TempForTheDayCollectionViewCell.self, forCellWithReuseIdentifier: "TempForTheCollectionViewCellModel")
+        collectionView.showsHorizontalScrollIndicator = false
+    }
+    
+    func addSubviews() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(collectionView)
+    }
+    
+    func makeConstraints() {
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            collectionView.heightAnchor.constraint(equalToConstant: 120)
+        ])
+    }
 }
 
 extension TemperaturePerDayCell: UICollectionViewDataSource {
@@ -30,9 +72,3 @@ extension TemperaturePerDayCell: UICollectionViewDataSource {
     }
 }
 
-extension TemperaturePerDayCell: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: collectionView.frame.height)
-    }
-}

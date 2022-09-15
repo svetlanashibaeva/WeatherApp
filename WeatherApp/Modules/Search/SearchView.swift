@@ -11,6 +11,7 @@ class SearchView: UIView {
     
     let tableView = UITableView()
     let searchBar = UISearchBar()
+    let activityIndicator = UIActivityIndicatorView()
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -28,12 +29,16 @@ class SearchView: UIView {
 private extension SearchView {
     
     func configure() {
-        backgroundColor = .white
+        backgroundColor = .defaultBackground
+        
+        activityIndicator.style = .large
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        
         tableView.register(SearchCell.self, forCellReuseIdentifier: "SearchCell")
     }
     
     func addSubviews() {
-        [tableView, searchBar].forEach {
+        [tableView, searchBar, activityIndicator].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             addSubview($0)
         }
@@ -48,7 +53,10 @@ private extension SearchView {
             tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
         ])
     }
 }

@@ -29,6 +29,8 @@ class DailyWeatherCell: UITableViewCell {
 private extension DailyWeatherCell {
     
     func configure() {
+        backgroundColor = .defaultBackground
+        
         dayLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
         
         minTempLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)

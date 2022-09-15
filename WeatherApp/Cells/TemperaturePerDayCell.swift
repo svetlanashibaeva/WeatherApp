@@ -35,9 +35,11 @@ class TemperaturePerDayCell: UITableViewCell {
 private extension TemperaturePerDayCell {
     
     func configure() {
+        backgroundColor = .defaultBackground
         collectionView.dataSource = self
         collectionView.register(TempForTheDayCollectionViewCell.self, forCellWithReuseIdentifier: "TempForTheCollectionViewCellModel")
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .defaultBackground
     }
     
     func addSubviews() {

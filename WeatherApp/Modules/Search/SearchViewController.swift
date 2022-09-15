@@ -22,7 +22,6 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     private let weatherService = WeatherService()
     private var savedCities = [CityEntity]()
     
-    private let activityIndicator = UIActivityIndicatorView(style: .large)
     private var timer: Timer?
     
     override func loadView() {
@@ -32,7 +31,6 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        showActivityIndicator()
         showSavedCities()
         
         customView.tableView.dataSource = self
@@ -40,17 +38,10 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
         customView.searchBar.delegate = self
     }
     
-    private func showActivityIndicator() {
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        activityIndicator.style = .large
-        activityIndicator.center = view.center
-        view.addSubview(activityIndicator)
-    }
-    
     func loadData(city: String?) {
         guard let city = city, !city.isEmpty else { return }
         
-        activityIndicator.startAnimating()
+        customView.activityIndicator.startAnimating()
         
         weatherService.getCity(name: city) { [weak self] result in
             guard let self = self else { return }
@@ -67,7 +58,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
             }
             
             DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
+                self.customView.activityIndicator.stopAnimating()
                 self.customView.tableView.reloadData()
             }
         }

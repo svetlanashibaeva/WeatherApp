@@ -32,12 +32,14 @@ class CurrentWeatherCell: UITableViewCell {
 private extension CurrentWeatherCell {
     
     func configure() {
+        backgroundColor = .defaultBackground
+        
         cityNameLabel.font = UIFont.systemFont(ofSize: 22, weight: .light)
         cityNameLabel.textAlignment = .center
+        cityNameLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         currentTemperatureLabel.font = UIFont.systemFont(ofSize: 70)
         currentTemperatureLabel.textAlignment = .center
-        currentTemperatureLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         currentTemperatureLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         
         feelsLikeLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)

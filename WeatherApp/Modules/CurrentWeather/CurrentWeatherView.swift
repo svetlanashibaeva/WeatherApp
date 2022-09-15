@@ -31,7 +31,9 @@ class CurrentWeatherView: UIView {
 private extension CurrentWeatherView {
     
     func configure() {
-        backgroundColor = .white
+        
+        backgroundColor = .defaultBackground
+    
         disableLocationView.isHidden = true
         
         openSettingsButton.backgroundColor = .blue
@@ -43,6 +45,7 @@ private extension CurrentWeatherView {
         tableView.register(CurrentWeatherCell.self, forCellReuseIdentifier: "CurrentWeatherCell")
         tableView.register(TemperaturePerDayCell.self, forCellReuseIdentifier: "TemperaturePerDayCell")
         tableView.register(DailyWeatherCell.self, forCellReuseIdentifier: "DailyWeatherCell")
+        tableView.backgroundColor = .defaultBackground
         
         activityIndicator.style = .large
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)

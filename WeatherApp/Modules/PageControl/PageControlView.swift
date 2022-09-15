@@ -29,12 +29,12 @@ class PageControlView: UIView {
 private extension PageControlView {
     
     func configure() {
-        backgroundColor = .white
+        backgroundColor = .defaultBackground
         pageControl.pageIndicatorTintColor = .gray
         pageControl.currentPageIndicatorTintColor = .blue
         
         listButton.tintColor = .blue
-        listButton.setImage(UIImage(systemName: "list.triangle"), for: .normal)
+        listButton.setBackgroundImage(UIImage(systemName: "list.triangle"), for: .normal)
     }
     func addSubviews() {
         addSubview(pageVC.view)
@@ -59,7 +59,9 @@ private extension PageControlView {
             listButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             listButton.leadingAnchor.constraint(greaterThanOrEqualTo: pageControl.trailingAnchor, constant: 8),
             listButton.centerYAnchor.constraint(equalTo: pageControl.centerYAnchor),
-            listButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8)
+            listButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            listButton.widthAnchor.constraint(equalToConstant: 24),
+            listButton.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
 }

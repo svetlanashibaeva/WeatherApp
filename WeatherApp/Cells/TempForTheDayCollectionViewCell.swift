@@ -29,6 +29,8 @@ class TempForTheDayCollectionViewCell: UICollectionViewCell {
 private extension TempForTheDayCollectionViewCell {
     
     func configure() {
+        backgroundColor = .defaultBackground
+        
         timeLabel.textAlignment = .center
         timeLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
         timeLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -37,7 +39,7 @@ private extension TempForTheDayCollectionViewCell {
         
         tempLabel.textAlignment = .center
         tempLabel.font = UIFont.systemFont(ofSize: 24, weight: .light)
-        tempLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        tempLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
     }
     
     func addSubviews() {

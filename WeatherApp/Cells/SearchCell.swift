@@ -27,7 +27,7 @@ class SearchCell: UITableViewCell {
 private extension SearchCell {
     
     func configure() {
-        cityNameLabel.font = UIFont.systemFont(ofSize: 17)
+        cityNameLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
     }
     
     func addSubviews() {

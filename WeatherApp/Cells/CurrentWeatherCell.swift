@@ -10,7 +10,7 @@ import UIKit
 class CurrentWeatherCell: UITableViewCell {
     
     let cityNameLabel = UILabel()
-    let curentTemperatureLabel = UILabel()
+    let currentTemperatureLabel = UILabel()
     let forecastLabel = UILabel()
     let feelsLikeLabel = UILabel()
     let weatherIcon = UIImageView()
@@ -32,25 +32,25 @@ class CurrentWeatherCell: UITableViewCell {
 private extension CurrentWeatherCell {
     
     func configure() {
-        cityNameLabel.text = "Piter"
-        cityNameLabel.font = UIFont.systemFont(ofSize: 22)
+        cityNameLabel.font = UIFont.systemFont(ofSize: 22, weight: .light)
         cityNameLabel.textAlignment = .center
         
-        curentTemperatureLabel.text = "23°"
-        curentTemperatureLabel.font = UIFont.systemFont(ofSize: 70)
-        curentTemperatureLabel.textAlignment = .center
+        currentTemperatureLabel.font = UIFont.systemFont(ofSize: 70)
+        currentTemperatureLabel.textAlignment = .center
+        currentTemperatureLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        currentTemperatureLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         
-        feelsLikeLabel.text = "Ощущается как: "
-        feelsLikeLabel.font = UIFont.systemFont(ofSize: 17)
+        feelsLikeLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
         feelsLikeLabel.textAlignment = .center
+        feelsLikeLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
-        forecastLabel.text = "Ясно"
-        forecastLabel.font = UIFont.systemFont(ofSize: 17)
+        forecastLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
         forecastLabel.textAlignment = .center
+        forecastLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
     func addSubviews() {
-        [cityNameLabel, curentTemperatureLabel, feelsLikeLabel, forecastLabel, weatherIcon].forEach {
+        [cityNameLabel, currentTemperatureLabel, feelsLikeLabel, forecastLabel, weatherIcon].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
         }
@@ -62,17 +62,17 @@ private extension CurrentWeatherCell {
             cityNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             cityNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             
-            curentTemperatureLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            curentTemperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            curentTemperatureLabel.topAnchor.constraint(equalTo: cityNameLabel.bottomAnchor, constant: 8),
+            currentTemperatureLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            currentTemperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            currentTemperatureLabel.topAnchor.constraint(equalTo: cityNameLabel.bottomAnchor, constant: 8),
             
             feelsLikeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             feelsLikeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            feelsLikeLabel.topAnchor.constraint(equalTo: curentTemperatureLabel.bottomAnchor, constant: 8),
+            feelsLikeLabel.topAnchor.constraint(equalTo: currentTemperatureLabel.bottomAnchor, constant: 8),
             
             weatherIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            weatherIcon.widthAnchor.constraint(equalToConstant: 70),
-            weatherIcon.heightAnchor.constraint(equalToConstant: 50),
+            weatherIcon.widthAnchor.constraint(equalToConstant: 60),
+            weatherIcon.heightAnchor.constraint(equalToConstant: 60),
             weatherIcon.topAnchor.constraint(equalTo: feelsLikeLabel.bottomAnchor, constant: 8),
             
             forecastLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

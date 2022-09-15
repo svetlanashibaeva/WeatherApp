@@ -29,14 +29,13 @@ class DailyWeatherCell: UITableViewCell {
 private extension DailyWeatherCell {
     
     func configure() {
-        dayLabel.text = "Сегодня"
-        dayLabel.font = UIFont.systemFont(ofSize: 17)
+        dayLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
         
-        minTempLabel.font = UIFont.systemFont(ofSize: 17)
+        minTempLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
         minTempLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         minTempLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        maxTempLabel.font = UIFont.systemFont(ofSize: 17)
+        maxTempLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
         maxTempLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         maxTempLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
     }

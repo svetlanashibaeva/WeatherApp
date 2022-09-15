@@ -29,13 +29,15 @@ class TempForTheDayCollectionViewCell: UICollectionViewCell {
 private extension TempForTheDayCollectionViewCell {
     
     func configure() {
-        timeLabel.text = "Сейчас"
         timeLabel.textAlignment = .center
-        timeLabel.font = UIFont.systemFont(ofSize: 17)
+        timeLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
+        timeLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
-        tempLabel.text = "23°"
+        weatherIcon.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
         tempLabel.textAlignment = .center
-        tempLabel.font = UIFont.systemFont(ofSize: 24)
+        tempLabel.font = UIFont.systemFont(ofSize: 24, weight: .light)
+        tempLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
     
     func addSubviews() {

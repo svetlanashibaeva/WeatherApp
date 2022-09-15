@@ -11,48 +11,44 @@ import CoreLocation
 
 class CurrentWeatherViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var cancelItem: UIBarButtonItem!
-    @IBOutlet weak var addToCoreDataItem: UIBarButtonItem!
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var disableLocationView: UIView!
+    private let customView = CurrentWeatherView()
     
     var city: City?
     var isCitySaved = false
     weak var delegate: CurrentWeatherViewControllerDelegate?
     
     private let locationManager = CLLocationManager()
-    private let activityIndicator = UIActivityIndicatorView(style: .large)
     private let weatherService = WeatherService()
     private var cellModels: [TableCellModelProtocol] = []
+    
+    override func loadView() {
+        view = customView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        showActivityIndicator()
+        customView.tableView.dataSource = self
+        customView.openSettingsButton.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         
         if let city = city {
-            
-            if !isBeingPresented {
-                navigationBar.isHidden = true
-            } else if isCitySaved {
-                addToCoreDataItem.isEnabled = false
-                addToCoreDataItem.title = ""
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Отмена", style: .done, target: self, action: #selector(closeCurrentVC))
+            if !isCitySaved {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Добавить", style: .done, target: self, action: #selector(addToCoreData))
             }
             
             loadData(lat: city.lat, lon: city.lon, name: city.localName)
         } else {
-            navigationBar.isHidden = true
             if (CLLocationManager.locationServicesEnabled()) {
                 locationManager.delegate = self
-                locationManager.desiredAccuracy = kCLLocationAccuracyBest
+                locationManager.distanceFilter = 100
                 locationManager.requestWhenInUseAuthorization()
                 locationManager.startUpdatingLocation()
             }
         }
     }
     
-    @IBAction func addToCoreData(_ sender: Any) {
+    @objc func addToCoreData() {
         guard let city = city else { return }
         
         CityEntity.saveCity(from: city)
@@ -62,20 +58,14 @@ class CurrentWeatherViewController: UIViewController {
         }
     }
     
-    @IBAction func closeCurrentVC(_ sender: Any) {
+    @objc func closeCurrentVC() {
         dismiss(animated: true)
     }
     
-    @IBAction func openSettings(_ sender: Any) {
+    @objc func openSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
-    }
-    
-    private func showActivityIndicator() {
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        activityIndicator.center = view.center
-        view.addSubview(activityIndicator)
     }
     
     private func loadData(lat: Double, lon: Double, name: String) {
@@ -83,7 +73,7 @@ class CurrentWeatherViewController: UIViewController {
         var forecast: ForecastModel?
         var responseError: String?
         
-        activityIndicator.startAnimating()
+        customView.activityIndicator.startAnimating()
         
         let taskLoadData = DispatchGroup()
         taskLoadData.enter()
@@ -122,8 +112,8 @@ class CurrentWeatherViewController: UIViewController {
                     forecast: forecast,
                     name: name
                 )
-                self.activityIndicator.stopAnimating()
-                self.tableView.reloadData()
+                self.customView.activityIndicator.stopAnimating()
+                self.customView.tableView.reloadData()
             }
         }
     }
@@ -216,6 +206,7 @@ extension CurrentWeatherViewController: UITableViewDataSource {
         let cellModel = cellModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellModel.cellIdentifier, for: indexPath)
         cellModel.configureCell(cell)
+        cell.selectionStyle = .none
         return cell
     }
 }
@@ -228,6 +219,6 @@ extension CurrentWeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        disableLocationView.isHidden = !(manager.authorizationStatus == .denied || manager.authorizationStatus == .restricted)
+        customView.disableLocationView.isHidden = !(manager.authorizationStatus == .denied || manager.authorizationStatus == .restricted)
     }
 }

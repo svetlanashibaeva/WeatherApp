@@ -14,40 +14,34 @@ protocol SearchControllerDelegate: AnyObject {
 }
 
 class SearchViewController: UIViewController, CurrentWeatherViewControllerDelegate {
-   
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
     
+    private let customView = SearchView()
     weak var delegate: SearchControllerDelegate?
 
     private var cellModels: [TableCellModelProtocol] = []
     private let weatherService = WeatherService()
-    private var city: City?
     private var savedCities = [CityEntity]()
     
-    private let activityIndicator = UIActivityIndicatorView(style: .large)
     private var timer: Timer?
+    
+    override func loadView() {
+        view = customView
+    }
      
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        showActivityIndicator()
         showSavedCities()
         
-        searchBar.delegate = self
-    }
-    
-    private func showActivityIndicator() {
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        activityIndicator.style = .large
-        activityIndicator.center = view.center
-        view.addSubview(activityIndicator)
+        customView.tableView.dataSource = self
+        customView.tableView.delegate = self
+        customView.searchBar.delegate = self
     }
     
     func loadData(city: String?) {
         guard let city = city, !city.isEmpty else { return }
         
-        activityIndicator.startAnimating()
+        customView.activityIndicator.startAnimating()
         
         weatherService.getCity(name: city) { [weak self] result in
             guard let self = self else { return }
@@ -64,8 +58,8 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
             }
             
             DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.tableView.reloadData()
+                self.customView.activityIndicator.stopAnimating()
+                self.customView.tableView.reloadData()
             }
         }
     }
@@ -73,7 +67,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     func update() {
         delegate?.updateSavedCities()
         showSavedCities()
-        searchBar.text = ""
+        customView.searchBar.text = ""
     }
     
     private func showSavedCities() {
@@ -84,23 +78,25 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
             SearchCellModel(city: City(from: cityEntity))
         }
         
-        tableView.reloadData()
+        customView.tableView.reloadData()
     }
     
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let currentVC = segue.destination as! CurrentWeatherViewController
+    func showCity(city: City?) {
+        let currentVC = CurrentWeatherViewController()
         
         if let city = city {
             currentVC.city = city
             currentVC.isCitySaved = savedCities.contains(where: { $0.lat == city.lat && $0.lon == city.lon })
         }
-
         currentVC.delegate = self
+        
+        let navigationController = UINavigationController(rootViewController: currentVC)
+        
+        present(navigationController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard searchBar.text == "" && indexPath.row != 0 else { return nil }
+        guard customView.searchBar.text == "" && indexPath.row != 0 else { return nil }
         let delete = deleteAction(at: indexPath)
         return UISwipeActionsConfiguration(actions: [delete])
     }
@@ -115,7 +111,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
             CoreDataService.shared.saveContext {
                 self.cellModels.remove(at: indexPath.row)
                 self.delegate?.updateSavedCities()
-                self.tableView.reloadData()    
+                self.customView.tableView.reloadData()
             }
         }
         return action
@@ -132,6 +128,7 @@ extension SearchViewController: UITableViewDataSource {
         let cellModel = cellModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellModel.cellIdentifier, for: indexPath)
         cellModel.configureCell(cell)
+        
         return cell
     }
 }
@@ -141,12 +138,12 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if searchBar.text == "" {
+        if customView.searchBar.text == "" {
             delegate?.showSelectedPage(at: indexPath.row)
             dismiss(animated: true)
         } else {
-            city = (cellModels[indexPath.row] as? SearchCellModel)?.city
-            performSegue(withIdentifier: "ShowCurrentWeather", sender: self)
+            let city = (cellModels[indexPath.row] as? SearchCellModel)?.city
+            showCity(city: city)
         }
     }
 }

@@ -9,25 +9,40 @@ import UIKit
 
 class PageControlViewController: UIViewController {
     
-    @IBOutlet weak var pageControl: UIPageControl!
+    private let customView = PageControlView()
     
     private var savedCities = [City]()
     private var currentPage = 0
-    private var pageVC: UIPageViewController?
+    
+    override func loadView() {
+        view = customView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
  
         updateSavedCities()
-
-        pageVC = children.first as? UIPageViewController
-        pageVC?.dataSource = self
-        pageVC?.delegate = self
+        addChild(customView.pageVC)
+        customView.pageVC.didMove(toParent: self)
+        
+        customView.pageVC.dataSource = self
+        customView.pageVC.delegate = self
+        
+        customView.listButton.addTarget(self, action: #selector(showSavedList), for: .touchUpInside)
+        customView.pageControl.addTarget(self, action: #selector(changeDots), for: .touchUpInside)
         
         showSelectedPage(at: currentPage)
     }
     
-    @IBAction func changeDots(_ sender: UIPageControl) {
+    @objc func showSavedList() {
+        let searchController = SearchViewController()
+        searchController.delegate = self
+        searchController.modalPresentationStyle = .fullScreen
+        
+        present(searchController, animated: true)
+    }
+    
+    @objc func changeDots(_ sender: UIPageControl) {
         showSelectedPage(at: sender.currentPage)
     }
     
@@ -37,25 +52,18 @@ class PageControlViewController: UIViewController {
         else {
             return nil
         }
-        guard let currentVC = storyboard?.instantiateViewController(withIdentifier: "CurrentWeatherVC") as? CurrentWeatherViewController else { return nil }
         
+        let currentVC = CurrentWeatherViewController()
         currentVC.city = index != 0 ? savedCities[index - 1] : nil
         
         return currentVC
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowSearch" {
-            let searchVC = segue.destination as! SearchViewController
-            searchVC.delegate = self
-        }   
     }
     
     private func setCurrentPage(viewControllers: [UIViewController]) {
         guard let currentVC = viewControllers.first as? CurrentWeatherViewController else { return }
         let index = Int(savedCities.firstIndex { currentVC.city == $0 } ?? -1)
         currentPage = index + 1
-        pageControl.currentPage = index + 1
+        customView.pageControl.currentPage = index + 1
     }
 }
 
@@ -89,13 +97,13 @@ extension PageControlViewController: SearchControllerDelegate {
     func updateSavedCities() {
         let cities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
         savedCities = cities.map { City(from: $0) }
-        pageControl.numberOfPages = cities.count + 1
+        customView.pageControl.numberOfPages = cities.count + 1
     }
 
     func showSelectedPage(at index: Int) {
         guard let currentWeatherVC = showCurrentViewControllerAtIndex(index) else { return }
-        pageVC?.setViewControllers([currentWeatherVC], direction: .forward, animated: true, completion: nil)
+        customView.pageVC.setViewControllers([currentWeatherVC], direction: .forward, animated: true, completion: nil)
         currentPage = index
-        pageControl.currentPage = index
+        customView.pageControl.currentPage = index
     }
 }

@@ -30,7 +30,7 @@ class PageControlViewController: UIViewController {
         
         customView.listButton.addTarget(self, action: #selector(showSavedList), for: .touchUpInside)
         view.backgroundColor = .red
-        customView.pageControl.addTarget(self, action: #selector(changeDotsjhgf), for: .touchUpInside)
+        customView.pageControl.addTarget(self, action: #selector(changeDotsdssdf), for: .touchUpInside)
         
         showSelectedPage(at: currentPage)
     }
@@ -43,7 +43,7 @@ class PageControlViewController: UIViewController {
         present(searchController, animated: true)
     }
     
-    @objc func changeDotsjhgf(_ sender: UIPageControl) {
+    @objc func changeDotsdssdf(_ sender: UIPageControl) {
         showSelectedPage(at: sender.currentPage)
     }
     
@@ -60,7 +60,7 @@ class PageControlViewController: UIViewController {
         return currentVC
     }
     
-    private func setCurrentPagesss(viewControllers: [UIViewController]) {
+    private func setCurrentPages(viewControllers: [UIViewController]) {
         guard let currentVC = viewControllers.first as? CurrentWeatherViewController else { return }
         let index = Int(savedCities.firstIndex { currentVC.city == $0 } ?? -1)
         currentPage = index + 1
@@ -84,13 +84,12 @@ extension PageControlViewController: UIPageViewControllerDataSource {
 extension PageControlViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        print("gfgfhghg")
-        setCurrentPagesss(viewControllers: pendingViewControllers)
+        setCurrentPages(viewControllers: pendingViewControllers)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard !completed else { return }
-        setCurrentPagesss(viewControllers: previousViewControllers)
+        setCurrentPages(viewControllers: previousViewControllers)
     }
 }
 

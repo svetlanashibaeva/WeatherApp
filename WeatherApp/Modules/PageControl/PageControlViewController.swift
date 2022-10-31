@@ -29,7 +29,8 @@ class PageControlViewController: UIViewController {
         customView.pageVC.delegate = self
         
         customView.listButton.addTarget(self, action: #selector(showSavedList), for: .touchUpInside)
-        customView.pageControl.addTarget(self, action: #selector(changeDots), for: .touchUpInside)
+        view.backgroundColor = .red
+        customView.pageControl.addTarget(self, action: #selector(changeDotsjhgf), for: .touchUpInside)
         
         showSelectedPage(at: currentPage)
     }
@@ -37,12 +38,12 @@ class PageControlViewController: UIViewController {
     @objc func showSavedList() {
         let searchController = SearchViewController()
         searchController.delegate = self
-        searchController.modalPresentationStyle = .fullScreen
+        searchController.modalPresentationStyle = .overFullScreen
         
         present(searchController, animated: true)
     }
     
-    @objc func changeDots(_ sender: UIPageControl) {
+    @objc func changeDotsjhgf(_ sender: UIPageControl) {
         showSelectedPage(at: sender.currentPage)
     }
     
@@ -59,7 +60,7 @@ class PageControlViewController: UIViewController {
         return currentVC
     }
     
-    private func setCurrentPage(viewControllers: [UIViewController]) {
+    private func setCurrentPagesss(viewControllers: [UIViewController]) {
         guard let currentVC = viewControllers.first as? CurrentWeatherViewController else { return }
         let index = Int(savedCities.firstIndex { currentVC.city == $0 } ?? -1)
         currentPage = index + 1
@@ -83,12 +84,13 @@ extension PageControlViewController: UIPageViewControllerDataSource {
 extension PageControlViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        setCurrentPage(viewControllers: pendingViewControllers)
+        print("gfgfhghg")
+        setCurrentPagesss(viewControllers: pendingViewControllers)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         guard !completed else { return }
-        setCurrentPage(viewControllers: previousViewControllers)
+        setCurrentPagesss(viewControllers: previousViewControllers)
     }
 }
 

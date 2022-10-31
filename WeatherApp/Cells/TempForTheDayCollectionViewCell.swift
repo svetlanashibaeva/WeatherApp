@@ -36,6 +36,7 @@ private extension TempForTheDayCollectionViewCell {
         timeLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         weatherIcon.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        weatherIcon.contentMode = .scaleAspectFit
         
         tempLabel.textAlignment = .center
         tempLabel.font = UIFont.systemFont(ofSize: 24, weight: .light)

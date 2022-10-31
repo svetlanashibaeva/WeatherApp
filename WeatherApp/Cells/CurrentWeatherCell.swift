@@ -49,6 +49,8 @@ private extension CurrentWeatherCell {
         forecastLabel.font = UIFont.systemFont(ofSize: 17, weight: .light)
         forecastLabel.textAlignment = .center
         forecastLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
+        weatherIcon.contentMode = .scaleAspectFit
     }
     
     func addSubviews() {

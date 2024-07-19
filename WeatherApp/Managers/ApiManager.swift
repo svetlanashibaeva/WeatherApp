@@ -1,5 +1,5 @@
 //
-//  ApiService.swift
+//  ApiManager.swift
 //  WeatherApp
 //
 //  Created by Света Шибаева on 18.08.2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ApiService {
+final class ApiManager {
     
     private let decoder: JSONDecoder
     

@@ -7,12 +7,30 @@
 
 import UIKit
 
+extension PageControlViewController {
+    
+    struct Dependencies {
+        let coreDataService: CoreDataServiceProtocol
+    }
+}
+
 class PageControlViewController: UIViewController {
     
     private let customView = PageControlView()
     
     private var savedCities = [City]()
     private var currentPage = 0
+    
+    private let dp: Dependencies
+    
+    init(dp: Dependencies) {
+        self.dp = dp
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = customView
@@ -35,7 +53,7 @@ class PageControlViewController: UIViewController {
     }
     
     @objc func showSavedList() {
-        let searchController = SearchViewController()
+        let searchController = ModuleFactory.shared.searchModule()
         searchController.delegate = self
         searchController.modalPresentationStyle = .fullScreen
         
@@ -53,7 +71,7 @@ class PageControlViewController: UIViewController {
             return nil
         }
         
-        let currentVC = CurrentWeatherViewController()
+        let currentVC = ModuleFactory.shared.currentWeatherModule()
         currentVC.city = index != 0 ? savedCities[index - 1] : nil
         
         return currentVC
@@ -95,7 +113,7 @@ extension PageControlViewController: UIPageViewControllerDelegate {
 extension PageControlViewController: SearchControllerDelegate {
     
     func updateSavedCities() {
-        let cities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
+        let cities = dp.coreDataService.getCities()
         savedCities = cities.map { City(from: $0) }
         customView.pageControl.numberOfPages = cities.count + 1
     }

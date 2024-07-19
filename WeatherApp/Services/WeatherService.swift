@@ -7,9 +7,19 @@
 
 import Foundation
 
-class WeatherService {
+protocol WeatherServiceProtocol {
+    func getWeather(lat: Double, lon: Double, completion: @escaping (Result<CurrentWeather, Error>) -> ())
+    func getForecast(lat: Double, lon: Double, completion: @escaping (Result<ForecastModel, Error>) -> ())
+    func getCity(name: String, completion: @escaping (Result<[City], Error>) -> ())
+}
+
+class WeatherService: WeatherServiceProtocol {
     
-    private let apiService = ApiService()
+    private let apiService: ApiManager
+    
+    init(apiService: ApiManager) {
+        self.apiService = apiService
+    }
 
     func getWeather(lat: Double, lon: Double, completion: @escaping (Result<CurrentWeather, Error>) -> ()) {
         apiService.performRequest(with: WeatherEndpoint.getCurrentWeather(lat: lat, lon: lon), type: CurrentWeather.self, completion: completion)

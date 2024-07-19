@@ -2,40 +2,40 @@
 //  CoreDataService.swift
 //  WeatherApp
 //
-//  Created by Света Шибаева on 24.08.2022.
+//  Created by Светлана Шибаева on 19.07.2024.
 //
 
 import Foundation
 import CoreData
 
-class CoreDataService {
-    
-    static let shared = CoreDataService()
-    
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "WeatherApp")
-        container.loadPersistentStores { storeDescription, error in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        }
-        return container
-    }()
-    
-    var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
+protocol CoreDataServiceProtocol {
+    func saveCity(from city: City)
+    func getCities() -> [CityEntity]
+    func saveContext(completion: (() -> ())?)
+    func deleteCity(from city: CityEntity)
+}
 
-    func saveContext (completion: (() -> ())? = nil) {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-                completion?()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }    
+final class CoreDataService: CoreDataServiceProtocol {
+    
+    private let cdManager = CoreDataManager.shared
+    
+    func getCities() -> [CityEntity] {
+        cdManager.getEntities(type: CityEntity.self)
+    }
+  
+    func saveCity(from city: City) {
+        let cityEntity = CityEntity(context: cdManager.context)
+        
+        cityEntity.name = city.name
+        cityEntity.lat = city.lat
+        cityEntity.lon = city.lon
+    }
+    
+    func deleteCity(from city: CityEntity) {
+        cdManager.context.delete(city)
+    }
+    
+    func saveContext(completion: (() -> ())? = nil) {
+        cdManager.saveContext(completion: completion)
+    }
 }

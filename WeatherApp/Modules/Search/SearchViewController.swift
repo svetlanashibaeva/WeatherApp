@@ -13,16 +13,34 @@ protocol SearchControllerDelegate: AnyObject {
     func updateSavedCities()
 }
 
+extension SearchViewController {
+    
+    struct Dependencies {
+        let coreDataService: CoreDataServiceProtocol
+        let weatherService: WeatherServiceProtocol
+    }
+}
+
 class SearchViewController: UIViewController, CurrentWeatherViewControllerDelegate {
     
     private let customView = SearchView()
     weak var delegate: SearchControllerDelegate?
 
     private var cellModels: [TableCellModelProtocol] = []
-    private let weatherService = WeatherService()
     private var savedCities = [CityEntity]()
     
     private var timer: Timer?
+    
+    private let dp: Dependencies
+    
+    init(dp: Dependencies) {
+        self.dp = dp
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = customView
@@ -43,7 +61,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
         
         customView.activityIndicator.startAnimating()
         
-        weatherService.getCity(name: city) { [weak self] result in
+        dp.weatherService.getCity(name: city) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -73,7 +91,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     private func showSavedCities() {
         cellModels = [SearchCellModel(city: nil)]
         
-        savedCities = (try? CoreDataService.shared.context.fetch(CityEntity.fetchRequest())) ?? []
+        savedCities = dp.coreDataService.getCities()
         cellModels += savedCities.map { cityEntity in
             SearchCellModel(city: City(from: cityEntity))
         }
@@ -82,7 +100,7 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     }
     
     func showCity(city: City?) {
-        let currentVC = CurrentWeatherViewController()
+        let currentVC = ModuleFactory.shared.currentWeatherModule()
         
         if let city = city {
             currentVC.city = city
@@ -104,11 +122,10 @@ class SearchViewController: UIViewController, CurrentWeatherViewControllerDelega
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
             guard let self = self else { return }
-            
             let savedCity = self.savedCities[indexPath.row - 1]
-            CoreDataService.shared.context.delete(savedCity)
+            dp.coreDataService.deleteCity(from: savedCity)
             self.savedCities.remove(at: indexPath.row - 1)
-            CoreDataService.shared.saveContext {
+            dp.coreDataService.saveContext {
                 self.cellModels.remove(at: indexPath.row)
                 self.delegate?.updateSavedCities()
                 self.customView.tableView.reloadData()

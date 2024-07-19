@@ -9,6 +9,15 @@ import UIKit
 import CoreData
 import CoreLocation
 
+extension CurrentWeatherViewController {
+    
+    struct Dependencies {
+        let weatherService: WeatherServiceProtocol
+        let locationService: LocationServiceProtocol
+        let coreDataService: CoreDataServiceProtocol
+    }
+}
+
 class CurrentWeatherViewController: UIViewController {
 
     private let customView = CurrentWeatherView()
@@ -17,9 +26,18 @@ class CurrentWeatherViewController: UIViewController {
     var isCitySaved = false
     weak var delegate: CurrentWeatherViewControllerDelegate?
     
-    private let locationManager = CLLocationManager()
-    private let weatherService = WeatherService()
+    private let dp: Dependencies
+    
     private var cellModels: [TableCellModelProtocol] = []
+    
+    init(dp: Dependencies) {
+        self.dp = dp
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = customView
@@ -39,20 +57,15 @@ class CurrentWeatherViewController: UIViewController {
             
             loadData(lat: city.lat, lon: city.lon, name: city.localName)
         } else {
-            if (CLLocationManager.locationServicesEnabled()) {
-                locationManager.delegate = self
-                locationManager.distanceFilter = 100
-                locationManager.requestWhenInUseAuthorization()
-                locationManager.startUpdatingLocation()
-            }
+            dp.locationService.start(delegate: self)
         }
     }
     
     @objc func addToCoreData() {
         guard let city = city else { return }
         
-        CityEntity.saveCity(from: city)
-        CoreDataService.shared.saveContext {
+        dp.coreDataService.saveCity(from: city)
+        dp.coreDataService.saveContext {
             self.delegate?.update()
             self.dismiss(animated: true)
         }
@@ -77,7 +90,7 @@ class CurrentWeatherViewController: UIViewController {
         
         let taskLoadData = DispatchGroup()
         taskLoadData.enter()
-        weatherService.getWeather(lat: lat, lon: lon) { result in
+        dp.weatherService.getWeather(lat: lat, lon: lon) { result in
             switch result {
             case let .success(response):
                 currentWeather = response
@@ -90,7 +103,7 @@ class CurrentWeatherViewController: UIViewController {
         }
         
         taskLoadData.enter()
-        weatherService.getForecast(lat: lat, lon: lon) { result in
+        dp.weatherService.getForecast(lat: lat, lon: lon) { result in
             switch result {
             case let .success(response):
                 forecast = response
@@ -115,17 +128,6 @@ class CurrentWeatherViewController: UIViewController {
                 self.customView.activityIndicator.stopAnimating()
                 self.customView.tableView.reloadData()
             }
-        }
-    }
-    
-    func setCityName(from location: CLLocation) {
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
-            guard let placemark = placemarks?.first,
-                  let cityName = placemark.locality
-            else { return }
-            
-            self?.loadData(lat: location.coordinate.latitude, lon: location.coordinate.longitude, name: cityName)
         }
     }
 
@@ -211,14 +213,16 @@ extension CurrentWeatherViewController: UITableViewDataSource {
     }
 }
 
-extension CurrentWeatherViewController: CLLocationManagerDelegate {
+extension CurrentWeatherViewController: LocationServiceDelegate {
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = manager.location else { return }
-        setCityName(from: location)
+    func didChangeAuthorizationStatus(status: CLAuthorizationStatus) {        customView.disableLocationView.isHidden = !(status == .denied || status == .restricted)
     }
     
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        customView.disableLocationView.isHidden = !(manager.authorizationStatus == .denied || manager.authorizationStatus == .restricted)
+    func didChangeLocation(location: Location) {
+        loadData(
+            lat: location.coordinates.coordinate.latitude,
+            lon: location.coordinates.coordinate.longitude,
+            name: location.cityName
+        )
     }
 }
